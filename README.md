@@ -83,6 +83,19 @@ socialhero/
 └── public/             # Verejne soubory (CSS, JS, images)
 ```
 
+## Roadmap (planovane funkce)
+
+- [ ] Newsletter subscribers - sprava prihlasenychemailu, export CSV
+- [ ] Media knihovna - upload a sprava obrazku
+- [ ] Statistiky a reporting - graf navstevnosti, konverze
+- [ ] Sitemap.xml a robots.txt - automaticke generovani
+- [ ] Zalohy - export/import databaze
+- [ ] Vice uzivatelu - role (admin/editor), log aktivit
+- [ ] Blog rozsireni - kategorie, tagy, komentare, planovane publikovani
+- [ ] Kontaktni formular - vice typu, auto-reply email
+- [ ] Pop-up / Banner - akcni nabidky, cookie consent
+- [ ] Vicejazycnost - CZ/EN verze
+
 ## Licence
 
 Proprietary - David Kosar

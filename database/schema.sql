@@ -297,6 +297,40 @@ CREATE TABLE IF NOT EXISTS `team_members` (
     INDEX `idx_active` (`is_active`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- =============================================
+-- Process Steps (Timeline)
+-- =============================================
+CREATE TABLE IF NOT EXISTS `process_steps` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT DEFAULT NULL,
+    `icon` VARCHAR(50) DEFAULT 'check',
+    `sort_order` INT NOT NULL DEFAULT 0,
+    `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX `idx_active` (`is_active`),
+    INDEX `idx_sort` (`sort_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =============================================
+-- Certifications / Partners
+-- =============================================
+CREATE TABLE IF NOT EXISTS `certifications` (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(255) NOT NULL,
+    `description` VARCHAR(255) DEFAULT NULL,
+    `icon` VARCHAR(50) DEFAULT 'award',
+    `color` VARCHAR(20) DEFAULT '#7c3aed',
+    `url` VARCHAR(255) DEFAULT NULL,
+    `sort_order` INT NOT NULL DEFAULT 0,
+    `is_active` TINYINT(1) NOT NULL DEFAULT 1,
+    `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    INDEX `idx_active` (`is_active`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- =============================================
@@ -339,4 +373,20 @@ INSERT INTO `settings` (`key`, `value`, `type`, `group`) VALUES
 ('contact_address', 'Praha, Česká republika', 'string', 'contact'),
 ('social_facebook', 'https://facebook.com/socialhero', 'string', 'social'),
 ('social_instagram', 'https://instagram.com/socialhero', 'string', 'social'),
-('social_linkedin', 'https://linkedin.com/company/socialhero', 'string', 'social');
+('social_linkedin', 'https://linkedin.com/company/socialhero', 'string', 'social'),
+('youtube_video_id', '', 'string', 'integrations'),
+('tawkto_property_id', '', 'string', 'integrations'),
+('tawkto_widget_id', '', 'string', 'integrations');
+
+-- Default process steps
+INSERT INTO `process_steps` (`title`, `description`, `icon`, `sort_order`) VALUES
+('Nezávazná konzultace', 'Probereme vaše cíle, aktuální stav a možnosti. Zdarma a bez závazků.', 'message-circle', 1),
+('Strategie na míru', 'Připravíme detailní plán s konkrétními kroky a očekávanými výsledky.', 'file-text', 2),
+('Spuštění kampaní', 'Implementujeme strategii a spouštíme kampaně s průběžným reportingem.', 'play-circle', 3),
+('Optimalizace a růst', 'Kontinuálně vyhodnocujeme data a optimalizujeme pro maximální ROI.', 'trending-up', 4);
+
+-- Default certifications
+INSERT INTO `certifications` (`name`, `description`, `icon`, `color`, `sort_order`) VALUES
+('Google Partner', 'Certifikovaná agentura', 'award', '#4285f4', 1),
+('Meta Business Partner', 'Facebook & Instagram Ads', 'award', '#0077b5', 2),
+('HubSpot Certified', 'Inbound Marketing', 'award', '#ff7a59', 3);

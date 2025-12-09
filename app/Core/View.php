@@ -74,4 +74,23 @@ class View
         $config = require BASE_PATH . '/config/app.php';
         return $config['base_path'] . '/' . ltrim($path, '/');
     }
+
+    public static function getSettings(): array
+    {
+        static $settings = null;
+
+        if ($settings === null) {
+            try {
+                $rows = Database::fetchAll("SELECT `key`, `value` FROM settings");
+                $settings = [];
+                foreach ($rows as $row) {
+                    $settings[$row['key']] = $row['value'];
+                }
+            } catch (\Exception $e) {
+                $settings = [];
+            }
+        }
+
+        return $settings;
+    }
 }

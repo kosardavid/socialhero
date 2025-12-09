@@ -15,6 +15,9 @@ Moderni webova prezentace pro marketingovou agenturu - online marketing na klic.
 - Kontaktni formular s ukladanim do DB
 - Newsletter prihlaseni
 - SEO optimalizovano
+- Cenova kalkulacka
+- Video sekce (YouTube)
+- Live chat (Tawk.to integrace)
 
 ### Admin Panel
 - Dashboard se statistikami
@@ -25,10 +28,21 @@ Moderni webova prezentace pro marketingovou agenturu - online marketing na klic.
   - Testimonials
   - Reference (case studies)
   - Tym
-  - Blog (s WYSIWYG editorem)
+  - Blog (s WYSIWYG editorem Quill)
   - Klienti
+  - Kroky spoluprace (proces)
+  - Certifikace
 - Sprava poptavek
-- Nastaveni webu
+- **SEO nastaveni pro kazdou stranku**
+- **Tracking & Analytics:**
+  - Google Tag Manager
+  - Google Analytics 4
+  - Google Ads
+  - Facebook Pixel
+  - Seznam Sklik
+  - Ecomail
+  - Vlastni HEAD/BODY skripty
+- Nastaveni webu (kontakty, socialni site, kalkulacka)
 
 ## Tech Stack
 
@@ -37,26 +51,36 @@ Moderni webova prezentace pro marketingovou agenturu - online marketing na klic.
 - **Databaze:** MariaDB 10.4
 - **WYSIWYG:** Quill Editor
 - **Ikony:** Feather Icons
+- **Live Chat:** Tawk.to
 
 ## Instalace
 
 1. Naklonovat repozitar
 2. Zkopirovat `.env.example` na `.env` a vyplnit udaje
 3. Importovat `database/schema.sql`
-4. Spustit seed: `/admin/seed.php?key=socialhero2025seed`
+4. Spustit updaty: `database/update_v2.sql`, `database/update_v3.sql`
+5. Spustit seed: `/admin/seed.php?key=socialhero2025seed`
+
+## Databazove updaty
+
+- **update_v2.sql** - Kroky spoluprace, certifikace
+- **update_v3.sql** - SEO stranky, tracking nastaveni, kalkulacka
 
 ## Struktura
 
 ```
 socialhero/
-├── admin/          # Admin panel
-├── app/            # MVC aplikace
-│   ├── Core/       # Framework
-│   ├── Controllers/
-│   └── Views/
-├── config/         # Konfigurace
-├── database/       # SQL schema
-└── public/         # Verejne soubory
+├── admin/              # Admin panel
+│   ├── Controllers/    # Admin controllery
+│   ├── Views/          # Admin sablony
+│   └── assets/         # Admin CSS/JS
+├── app/                # MVC aplikace
+│   ├── Core/           # Framework (App, Router, Database, View)
+│   ├── Controllers/    # Frontend controllery
+│   └── Views/          # Frontend sablony
+├── config/             # Konfigurace
+├── database/           # SQL schema a updaty
+└── public/             # Verejne soubory (CSS, JS, images)
 ```
 
 ## Licence

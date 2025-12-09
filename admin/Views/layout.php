@@ -61,8 +61,23 @@
                 Klienti
             </a>
 
+            <div class="sidebar__divider">Homepage</div>
+
+            <a href="/new/admin/process-steps" class="sidebar__link <?= ($currentPage ?? '') === 'process-steps' ? 'active' : '' ?>">
+                <i data-feather="list"></i>
+                Kroky spolupráce
+            </a>
+            <a href="/new/admin/certifications" class="sidebar__link <?= ($currentPage ?? '') === 'certifications' ? 'active' : '' ?>">
+                <i data-feather="shield"></i>
+                Certifikace
+            </a>
+
             <div class="sidebar__divider">Systém</div>
 
+            <a href="/new/admin/page-seo" class="sidebar__link <?= ($currentPage ?? '') === 'page-seo' ? 'active' : '' ?>">
+                <i data-feather="search"></i>
+                SEO Stránek
+            </a>
             <a href="/new/admin/settings" class="sidebar__link <?= ($currentPage ?? '') === 'settings' ? 'active' : '' ?>">
                 <i data-feather="settings"></i>
                 Nastavení

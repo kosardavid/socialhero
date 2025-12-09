@@ -168,6 +168,27 @@ switch ($route) {
         $controller->settings();
         break;
 
+    // Process Steps CRUD
+    case '/process-steps':
+        $controller->processSteps();
+        break;
+    case '/process-steps/create':
+        $controller->processStepForm();
+        break;
+
+    // Certifications CRUD
+    case '/certifications':
+        $controller->certifications();
+        break;
+    case '/certifications/create':
+        $controller->certificationForm();
+        break;
+
+    // Page SEO
+    case '/page-seo':
+        $controller->pageSeo();
+        break;
+
     default:
         // Dynamic routes with regex
         $matched = false;
@@ -252,6 +273,24 @@ switch ($route) {
         }
         elseif (preg_match('#^/clients/(\d+)/delete$#', $route, $matches)) {
             $controller->clientDelete($matches[1]);
+            $matched = true;
+        }
+        // Process Steps edit/delete
+        elseif (preg_match('#^/process-steps/(\d+)/edit$#', $route, $matches)) {
+            $controller->processStepForm($matches[1]);
+            $matched = true;
+        }
+        elseif (preg_match('#^/process-steps/(\d+)/delete$#', $route, $matches)) {
+            $controller->processStepDelete($matches[1]);
+            $matched = true;
+        }
+        // Certifications edit/delete
+        elseif (preg_match('#^/certifications/(\d+)/edit$#', $route, $matches)) {
+            $controller->certificationForm($matches[1]);
+            $matched = true;
+        }
+        elseif (preg_match('#^/certifications/(\d+)/delete$#', $route, $matches)) {
+            $controller->certificationDelete($matches[1]);
             $matched = true;
         }
 

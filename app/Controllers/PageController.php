@@ -114,12 +114,38 @@ class PageController
             ['name' => 'Landing page', 'price' => 'od 25 000 Kč'],
         ];
 
+        // Load calculator settings
+        $settings = $this->getSettings();
+        $calculatorPrices = [
+            'social' => (int)($settings['calc_social'] ?? 8000),
+            'meta' => (int)($settings['calc_meta'] ?? 6000),
+            'google' => (int)($settings['calc_google'] ?? 6000),
+            'email' => (int)($settings['calc_email'] ?? 4000),
+            'seo' => (int)($settings['calc_seo'] ?? 8000),
+            'content' => (int)($settings['calc_content'] ?? 5000),
+        ];
+
         View::render('pages/pricing', [
             'plans' => $plans,
             'addons' => $addons,
+            'calculatorPrices' => $calculatorPrices,
             'pageTitle' => 'Ceník',
             'pageDescription' => 'Transparentní ceny bez skrytých poplatků. Vyberte si balíček, který vám vyhovuje.',
         ]);
+    }
+
+    private function getSettings(): array
+    {
+        try {
+            $settings = Database::fetchAll("SELECT `key`, `value` FROM settings");
+            $result = [];
+            foreach ($settings as $s) {
+                $result[$s['key']] = $s['value'];
+            }
+            return $result;
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     public function about(): void

@@ -66,8 +66,170 @@
     </div>
 </section>
 
+<!-- Pricing Calculator -->
+<section class="calculator section--alt" id="kalkulacka">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__badge">Kalkulačka</span>
+            <h2 class="section__title">
+                Spočítejte si svoji
+                <span class="text-gradient">cenu</span>
+            </h2>
+            <p class="section__description">
+                Vyberte služby, které potřebujete, a získejte orientační cenu.
+            </p>
+        </div>
+
+        <?php
+        // Default prices if not set from admin
+        $prices = $calculatorPrices ?? [
+            'social' => 8000,
+            'meta' => 6000,
+            'google' => 6000,
+            'email' => 4000,
+            'seo' => 8000,
+            'content' => 5000,
+        ];
+        ?>
+        <div class="calculator__wrapper">
+            <div class="calculator__form" id="calculatorForm">
+                <div class="calculator__group">
+                    <label class="calculator__label">Jaké služby potřebujete?</label>
+                    <div class="calculator__options calculator__options--grid">
+                        <label class="calculator__option">
+                            <input type="checkbox" name="service" value="social" data-price="<?= $prices['social'] ?>" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <div>
+                                <strong>Správa soc. sítí</strong>
+                                <div style="font-size: 0.75rem; color: var(--color-text-muted);">od <?= number_format($prices['social'], 0, ',', ' ') ?> Kč/měs.</div>
+                            </div>
+                        </label>
+                        <label class="calculator__option">
+                            <input type="checkbox" name="service" value="meta" data-price="<?= $prices['meta'] ?>" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <div>
+                                <strong>Meta Ads</strong>
+                                <div style="font-size: 0.75rem; color: var(--color-text-muted);">od <?= number_format($prices['meta'], 0, ',', ' ') ?> Kč/měs.</div>
+                            </div>
+                        </label>
+                        <label class="calculator__option">
+                            <input type="checkbox" name="service" value="google" data-price="<?= $prices['google'] ?>" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <div>
+                                <strong>Google Ads</strong>
+                                <div style="font-size: 0.75rem; color: var(--color-text-muted);">od <?= number_format($prices['google'], 0, ',', ' ') ?> Kč/měs.</div>
+                            </div>
+                        </label>
+                        <label class="calculator__option">
+                            <input type="checkbox" name="service" value="email" data-price="<?= $prices['email'] ?>" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <div>
+                                <strong>E-mail marketing</strong>
+                                <div style="font-size: 0.75rem; color: var(--color-text-muted);">od <?= number_format($prices['email'], 0, ',', ' ') ?> Kč/měs.</div>
+                            </div>
+                        </label>
+                        <label class="calculator__option">
+                            <input type="checkbox" name="service" value="seo" data-price="<?= $prices['seo'] ?>" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <div>
+                                <strong>SEO optimalizace</strong>
+                                <div style="font-size: 0.75rem; color: var(--color-text-muted);">od <?= number_format($prices['seo'], 0, ',', ' ') ?> Kč/měs.</div>
+                            </div>
+                        </label>
+                        <label class="calculator__option">
+                            <input type="checkbox" name="service" value="content" data-price="<?= $prices['content'] ?>" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <div>
+                                <strong>Tvorba obsahu</strong>
+                                <div style="font-size: 0.75rem; color: var(--color-text-muted);">od <?= number_format($prices['content'], 0, ',', ' ') ?> Kč/měs.</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calculator__group">
+                    <label class="calculator__label">Kolik sociálních sítí chcete spravovat?</label>
+                    <div class="calculator__options">
+                        <label class="calculator__option">
+                            <input type="radio" name="networks" value="1-2" data-multiplier="1" onchange="calculatePrice()" checked>
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <span>1-2 sítě</span>
+                        </label>
+                        <label class="calculator__option">
+                            <input type="radio" name="networks" value="3-4" data-multiplier="1.3" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <span>3-4 sítě (+30%)</span>
+                        </label>
+                        <label class="calculator__option">
+                            <input type="radio" name="networks" value="5+" data-multiplier="1.5" onchange="calculatePrice()">
+                            <div class="calculator__checkbox"><i data-feather="check"></i></div>
+                            <span>5 a více (+50%)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="calculator__result">
+                    <div class="calculator__price" id="calculatorPrice">0 Kč</div>
+                    <div class="calculator__note">Orientační měsíční cena</div>
+                    <a href="<?= \App\Core\View::url('/kontakt') ?>?source=calculator" class="btn btn--primary" style="margin-top: 1rem;">
+                        Získat přesnou nabídku
+                        <i data-feather="arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function calculatePrice() {
+    var total = 0;
+    var checkboxes = document.querySelectorAll('input[name="service"]:checked');
+    checkboxes.forEach(function(cb) {
+        total += parseInt(cb.dataset.price);
+    });
+
+    var multiplier = document.querySelector('input[name="networks"]:checked');
+    if (multiplier) {
+        total = Math.round(total * parseFloat(multiplier.dataset.multiplier));
+    }
+
+    document.getElementById('calculatorPrice').textContent = total.toLocaleString('cs-CZ') + ' Kč';
+
+    // Update selected states for better browser compatibility
+    updateSelectedStates();
+}
+
+function updateSelectedStates() {
+    // Handle checkboxes
+    document.querySelectorAll('.calculator__option input[type="checkbox"]').forEach(function(input) {
+        var label = input.closest('.calculator__option');
+        if (input.checked) {
+            label.classList.add('selected');
+        } else {
+            label.classList.remove('selected');
+        }
+    });
+
+    // Handle radio buttons
+    document.querySelectorAll('.calculator__option input[type="radio"]').forEach(function(input) {
+        var label = input.closest('.calculator__option');
+        if (input.checked) {
+            label.classList.add('selected');
+        } else {
+            label.classList.remove('selected');
+        }
+    });
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateSelectedStates();
+});
+</script>
+
 <!-- Add-ons -->
-<section class="section section--alt">
+<section class="section">
     <div class="container">
         <div class="section__header">
             <span class="section__badge">Doplňkové služby</span>

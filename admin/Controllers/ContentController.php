@@ -736,6 +736,182 @@ class ContentController
         exit;
     }
 
+    // ==================== PROCESS STEPS ====================
+    public function processSteps(): void
+    {
+        try {
+            $items = Database::fetchAll("SELECT * FROM process_steps ORDER BY sort_order ASC");
+        } catch (\Exception $e) {
+            $items = [];
+        }
+        require ADMIN_PATH . '/Views/process-steps.php';
+    }
+
+    public function processStepForm(?int $id = null): void
+    {
+        $item = null;
+        $errors = [];
+
+        if ($id) {
+            try {
+                $item = Database::fetch("SELECT * FROM process_steps WHERE id = ?", [$id]);
+            } catch (\Exception $e) {}
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'title' => trim($_POST['title'] ?? ''),
+                'description' => trim($_POST['description'] ?? ''),
+                'icon' => trim($_POST['icon'] ?? 'check'),
+                'sort_order' => (int)($_POST['sort_order'] ?? 0),
+                'is_active' => isset($_POST['is_active']) ? 1 : 0
+            ];
+
+            if (empty($data['title'])) {
+                $errors[] = 'Název je povinný.';
+            }
+
+            if (empty($errors)) {
+                try {
+                    if ($id) {
+                        Database::update('process_steps', $data, 'id = ?', [$id]);
+                        $_SESSION['flash_message'] = 'Krok byl aktualizován.';
+                    } else {
+                        Database::insert('process_steps', $data);
+                        $_SESSION['flash_message'] = 'Krok byl vytvořen.';
+                    }
+                    header('Location: ' . $this->basePath . '/process-steps');
+                    exit;
+                } catch (\Exception $e) {
+                    $errors[] = 'Chyba při ukládání: ' . $e->getMessage();
+                }
+            }
+        }
+
+        require ADMIN_PATH . '/Views/process-step-form.php';
+    }
+
+    public function processStepDelete(int $id): void
+    {
+        try {
+            Database::delete('process_steps', 'id = ?', [$id]);
+            $_SESSION['flash_message'] = 'Krok byl smazán.';
+        } catch (\Exception $e) {
+            $_SESSION['flash_message'] = 'Chyba při mazání.';
+            $_SESSION['flash_type'] = 'error';
+        }
+        header('Location: ' . $this->basePath . '/process-steps');
+        exit;
+    }
+
+    // ==================== CERTIFICATIONS ====================
+    public function certifications(): void
+    {
+        try {
+            $items = Database::fetchAll("SELECT * FROM certifications ORDER BY sort_order ASC");
+        } catch (\Exception $e) {
+            $items = [];
+        }
+        require ADMIN_PATH . '/Views/certifications.php';
+    }
+
+    public function certificationForm(?int $id = null): void
+    {
+        $item = null;
+        $errors = [];
+
+        if ($id) {
+            try {
+                $item = Database::fetch("SELECT * FROM certifications WHERE id = ?", [$id]);
+            } catch (\Exception $e) {}
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'name' => trim($_POST['name'] ?? ''),
+                'description' => trim($_POST['description'] ?? ''),
+                'icon' => trim($_POST['icon'] ?? 'award'),
+                'color' => trim($_POST['color'] ?? '#7c3aed'),
+                'url' => trim($_POST['url'] ?? ''),
+                'sort_order' => (int)($_POST['sort_order'] ?? 0),
+                'is_active' => isset($_POST['is_active']) ? 1 : 0
+            ];
+
+            if (empty($data['name'])) {
+                $errors[] = 'Název je povinný.';
+            }
+
+            if (empty($errors)) {
+                try {
+                    if ($id) {
+                        Database::update('certifications', $data, 'id = ?', [$id]);
+                        $_SESSION['flash_message'] = 'Certifikace byla aktualizována.';
+                    } else {
+                        Database::insert('certifications', $data);
+                        $_SESSION['flash_message'] = 'Certifikace byla vytvořena.';
+                    }
+                    header('Location: ' . $this->basePath . '/certifications');
+                    exit;
+                } catch (\Exception $e) {
+                    $errors[] = 'Chyba při ukládání: ' . $e->getMessage();
+                }
+            }
+        }
+
+        require ADMIN_PATH . '/Views/certification-form.php';
+    }
+
+    public function certificationDelete(int $id): void
+    {
+        try {
+            Database::delete('certifications', 'id = ?', [$id]);
+            $_SESSION['flash_message'] = 'Certifikace byla smazána.';
+        } catch (\Exception $e) {
+            $_SESSION['flash_message'] = 'Chyba při mazání.';
+            $_SESSION['flash_type'] = 'error';
+        }
+        header('Location: ' . $this->basePath . '/certifications');
+        exit;
+    }
+
+    // ==================== PAGE SEO ====================
+    public function pageSeo(): void
+    {
+        // Handle POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pages'])) {
+            try {
+                foreach ($_POST['pages'] as $pageData) {
+                    $id = (int)($pageData['id'] ?? 0);
+                    if ($id > 0) {
+                        Database::query(
+                            "UPDATE page_seo SET meta_title = ?, meta_description = ?, meta_keywords = ? WHERE id = ?",
+                            [
+                                trim($pageData['meta_title'] ?? ''),
+                                trim($pageData['meta_description'] ?? ''),
+                                trim($pageData['meta_keywords'] ?? ''),
+                                $id
+                            ]
+                        );
+                    }
+                }
+                $_SESSION['flash_success'] = 'SEO nastavení bylo uloženo.';
+            } catch (\Exception $e) {
+                $_SESSION['flash_error'] = 'Chyba při ukládání: ' . $e->getMessage();
+            }
+            header('Location: ' . $this->basePath . '/page-seo');
+            exit;
+        }
+
+        // Load pages
+        try {
+            $pages = Database::fetchAll("SELECT * FROM page_seo ORDER BY id ASC");
+        } catch (\Exception $e) {
+            $pages = [];
+        }
+
+        require ADMIN_PATH . '/Views/page-seo.php';
+    }
+
     // ==================== HELPERS ====================
     private function slugify(string $text): string
     {

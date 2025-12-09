@@ -115,8 +115,41 @@
     </div>
 </section>
 
+<!-- Process Timeline Section -->
+<?php if (!empty($processSteps)): ?>
+<section class="process section--alt">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__badge">Jak to funguje</span>
+            <h2 class="section__title">
+                Cesta k vašemu
+                <span class="text-gradient">úspěchu</span>
+            </h2>
+            <p class="section__description">
+                Od prvního kontaktu po měřitelné výsledky ve <?= count($processSteps) ?> jednoduchých krocích.
+            </p>
+        </div>
+
+        <div class="process__timeline">
+            <?php foreach ($processSteps as $index => $step): ?>
+            <div class="process__step">
+                <div class="process__icon">
+                    <span class="process__number"><?= $index + 1 ?></span>
+                    <i data-feather="<?= htmlspecialchars($step['icon'] ?? 'check') ?>"></i>
+                </div>
+                <h3 class="process__title"><?= htmlspecialchars($step['title']) ?></h3>
+                <p class="process__description">
+                    <?= htmlspecialchars($step['description'] ?? '') ?>
+                </p>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
 <!-- Why Choose Us Section -->
-<section class="section section--alt">
+<section class="section">
     <div class="container">
         <div class="section__header">
             <span class="section__badge">Proč SocialHero</span>
@@ -177,6 +210,67 @@
         </div>
     </div>
 </section>
+
+<!-- Video Section -->
+<?php if (!empty($settings['youtube_video_id'])): ?>
+<section class="video-section">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__badge">Poznejte nás</span>
+            <h2 class="section__title">
+                Jak pracujeme a
+                <span class="text-gradient">kdo jsme</span>
+            </h2>
+        </div>
+
+        <div class="video-section__wrapper">
+            <div class="video-section__embed" id="videoEmbed">
+                <div class="video-section__placeholder" onclick="loadVideo()">
+                    <div class="video-section__play">
+                        <i data-feather="play"></i>
+                    </div>
+                    <p style="color: var(--color-text-secondary);">Klikněte pro přehrání videa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function loadVideo() {
+    var embed = document.getElementById('videoEmbed');
+    embed.innerHTML = '<iframe src="https://www.youtube.com/embed/<?= htmlspecialchars($settings['youtube_video_id']) ?>?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+}
+</script>
+<?php endif; ?>
+
+<!-- Certifications Section -->
+<?php if (!empty($certifications)): ?>
+<section class="partners">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__badge">Certifikace</span>
+            <h2 class="section__title" style="font-size: var(--text-2xl);">
+                Oficiální partneři a certifikace
+            </h2>
+        </div>
+
+        <div class="partners__grid">
+            <?php foreach ($certifications as $cert): ?>
+            <div class="partner-badge">
+                <div class="partner-badge__icon" style="background: <?= htmlspecialchars($cert['color']) ?>20; color: <?= htmlspecialchars($cert['color']) ?>;">
+                    <i data-feather="<?= htmlspecialchars($cert['icon'] ?? 'award') ?>"></i>
+                </div>
+                <div>
+                    <div class="partner-badge__name"><?= htmlspecialchars($cert['name']) ?></div>
+                    <div class="partner-badge__status"><?= htmlspecialchars($cert['description'] ?? '') ?></div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
 
 <!-- Pricing Section -->
 <section class="section" id="cenik">

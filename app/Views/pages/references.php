@@ -18,43 +18,73 @@
     <div class="container">
         <div class="case-studies__grid" style="display: grid; gap: 2rem;">
             <?php foreach ($caseStudies as $case): ?>
-            <div class="case-study-card" style="display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 2rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl);">
-                <div class="case-study-card__image" style="aspect-ratio: 16/10; background: var(--color-bg-tertiary); border-radius: var(--radius-lg); overflow: hidden;">
-                    <!-- Image placeholder -->
-                    <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);">
-                        <i data-feather="image" style="width: 48px; height: 48px;"></i>
-                    </div>
-                </div>
-
-                <div class="case-study-card__content">
+            <div class="case-study-card--enhanced">
+                <!-- Left: Metrics -->
+                <div class="case-study__left">
                     <span style="display: inline-block; padding: 0.25rem 0.75rem; background: rgba(124, 58, 237, 0.1); border-radius: var(--radius-full); font-size: 0.75rem; color: var(--color-accent-secondary); margin-bottom: 1rem;">
-                        <?= $case['category'] ?>
+                        <?= htmlspecialchars($case['category'] ?? 'Marketing') ?>
                     </span>
 
-                    <h3 style="font-size: 1.5rem; margin-bottom: 0.75rem;"><?= $case['title'] ?></h3>
-
-                    <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem;">
-                        <?= $case['description'] ?>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;"><?= htmlspecialchars($case['title']) ?></h3>
+                    <p style="font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 1.5rem;">
+                        <?= htmlspecialchars($case['client_name'] ?? '') ?>
                     </p>
 
-                    <!-- Results -->
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
-                        <?php foreach ($case['results'] as $result): ?>
-                        <div style="text-align: center; padding: 1rem; background: var(--color-bg-tertiary); border-radius: var(--radius-lg);">
-                            <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-accent-secondary);">
-                                <?= $result['value'] ?>
-                            </div>
-                            <div style="font-size: 0.75rem; color: var(--color-text-muted);">
-                                <?= $result['label'] ?>
-                            </div>
+                    <!-- Key Metrics -->
+                    <div class="case-study__metrics">
+                        <?php
+                        $results = $case['results'] ?? [];
+                        if (is_string($results)) {
+                            $results = json_decode($results, true) ?? [];
+                        }
+                        foreach ($results as $result):
+                        ?>
+                        <div class="case-study__metric">
+                            <div class="case-study__metric-value"><?= htmlspecialchars($result['value'] ?? '') ?></div>
+                            <div class="case-study__metric-label"><?= htmlspecialchars($result['label'] ?? '') ?></div>
                         </div>
                         <?php endforeach; ?>
                     </div>
+                </div>
 
-                    <a href="#" class="service-card__link">
-                        Celá případová studie
-                        <i data-feather="arrow-right"></i>
-                    </a>
+                <!-- Right: Details -->
+                <div class="case-study__right">
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.7;">
+                        <?= htmlspecialchars($case['description'] ?? $case['short_description'] ?? '') ?>
+                    </p>
+
+                    <?php if (!empty($case['challenge'])): ?>
+                    <div class="case-study__challenge">
+                        <div class="case-study__challenge-title">
+                            <i data-feather="alert-circle" style="width: 16px; height: 16px;"></i>
+                            Výzva
+                        </div>
+                        <p class="case-study__challenge-text"><?= htmlspecialchars($case['challenge']) ?></p>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($case['solution'])): ?>
+                    <div class="case-study__solution">
+                        <div class="case-study__solution-title">
+                            <i data-feather="check-circle" style="width: 16px; height: 16px;"></i>
+                            Řešení
+                        </div>
+                        <p class="case-study__solution-text"><?= htmlspecialchars($case['solution']) ?></p>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($case['testimonial'])): ?>
+                    <div style="padding: 1rem; background: rgba(124, 58, 237, 0.05); border-left: 3px solid var(--color-accent-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-top: 1rem;">
+                        <p style="font-style: italic; color: var(--color-text-secondary); margin-bottom: 0.5rem;">
+                            "<?= htmlspecialchars($case['testimonial']) ?>"
+                        </p>
+                        <?php if (!empty($case['testimonial_author'])): ?>
+                        <p style="font-size: 0.75rem; color: var(--color-text-muted);">
+                            — <?= htmlspecialchars($case['testimonial_author']) ?>
+                        </p>
+                        <?php endif; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>

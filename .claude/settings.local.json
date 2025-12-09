@@ -22,7 +22,9 @@
       "Bash(do curl -s -T \"$file\" -u w387379_kosar:jp9L3aUK \"ftp://387379.w79.wedos.net/domains/socialhero.cz/new/$file\")",
       "Bash(echo:*)",
       "Bash(tree:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

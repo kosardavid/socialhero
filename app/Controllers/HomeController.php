@@ -59,14 +59,44 @@ class HomeController
             $faqs = $this->getDefaultFaqs();
         }
 
+        // Load process steps from database
+        $processSteps = Database::fetchAll(
+            "SELECT * FROM process_steps WHERE is_active = 1 ORDER BY sort_order ASC, id ASC"
+        );
+
+        // Load certifications from database
+        $certifications = Database::fetchAll(
+            "SELECT * FROM certifications WHERE is_active = 1 ORDER BY sort_order ASC, id ASC"
+        );
+
+        // Load settings for video and chat
+        $settings = $this->getSettings();
+
         View::render('pages/home', [
             'services' => $services,
             'stats' => $stats,
             'testimonials' => $testimonials,
             'pricing' => $pricing,
             'faqs' => $faqs,
+            'processSteps' => $processSteps,
+            'certifications' => $certifications,
+            'settings' => $settings,
             'pageTitle' => 'Online Marketing na Klíč',
         ]);
+    }
+
+    private function getSettings(): array
+    {
+        try {
+            $settings = Database::fetchAll("SELECT `key`, `value` FROM settings");
+            $result = [];
+            foreach ($settings as $s) {
+                $result[$s['key']] = $s['value'];
+            }
+            return $result;
+        } catch (\Exception $e) {
+            return [];
+        }
     }
 
     private function getStats(): array

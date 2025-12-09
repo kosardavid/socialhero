@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(ls:*)",
+      "Bash(cd:*)",
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Bash(git branch:*)",
+      "Bash(curl:*)",
+      "Bash(for file in public/.htaccess public/index.php public/assets/css/style.css public/assets/js/main.js public/assets/images/favicon.svg)",
+      "Bash(do echo \"Uploading $file...\")",
+      "Bash(done)",
+      "Bash(for file in config/app.php config/database.php)",
+      "Bash(for file in app/Core/App.php app/Core/Database.php app/Core/Router.php app/Core/View.php)",
+      "Bash(for file in app/Controllers/ContactController.php app/Controllers/HomeController.php app/Controllers/PageController.php)",
+      "Bash(for:*)",
+      "Bash(do curl -s -T \"$file\" -u w387379_kosar:jp9L3aUK \"ftp://387379.w79.wedos.net/domains/socialhero.cz/new/$file\")",
+      "Bash(echo:*)",
+      "Bash(tree:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

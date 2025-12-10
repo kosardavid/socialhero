@@ -101,6 +101,30 @@ class HomeController
 
     private function getStats(): array
     {
+        // Try to load from page_content table
+        try {
+            $rows = Database::fetchAll(
+                "SELECT field, content FROM page_content WHERE page = 'home' AND section = 'stats'"
+            );
+
+            if (!empty($rows)) {
+                $data = [];
+                foreach ($rows as $row) {
+                    $data[$row['field']] = $row['content'];
+                }
+
+                return [
+                    ['number' => $data['stat1_value'] ?? '150+', 'label' => $data['stat1_label'] ?? 'Spokojených klientů'],
+                    ['number' => $data['stat2_value'] ?? '24h', 'label' => $data['stat2_label'] ?? 'Průměrná odezva'],
+                    ['number' => $data['stat3_value'] ?? '40%', 'label' => $data['stat3_label'] ?? 'Průměrný nárůst konverzí'],
+                    ['number' => $data['stat4_value'] ?? '5+', 'label' => $data['stat4_label'] ?? 'Let zkušeností'],
+                ];
+            }
+        } catch (\Exception $e) {
+            // Fall through to defaults
+        }
+
+        // Default values
         return [
             ['number' => '150+', 'label' => 'Spokojených klientů'],
             ['number' => '24h', 'label' => 'Průměrná odezva'],

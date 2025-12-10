@@ -79,9 +79,10 @@ socialhero/
 │   └── database.php      # DB konfigurace
 │
 ├── database/             # SQL soubory
-│   └── schema.sql        # Databazove schema
+│   ├── schema.sql        # Databazove schema
+│   ├── update_v2.sql     # Kroky spoluprace, certifikace
+│   └── update_v3.sql     # SEO, tracking, kalkulacka
 │
-├── setup-db.php          # Skript pro inicializaci DB
 └── storage/              # Logy, cache
 ```
 
@@ -96,18 +97,21 @@ socialhero/
 
 ## Databazove tabulky
 ```sql
-- admin_users        # Admin uzivatele
-- contacts           # Poptavky z kontaktniho formulare
+- admin_users           # Admin uzivatele
+- contacts              # Poptavky z kontaktniho formulare
 - newsletter_subscribers # Odberatele newsletteru
-- services           # Sluzby
-- pricing_plans      # Cenove plany
-- faqs               # Casto kladene otazky
-- testimonials       # Reference/recenze
-- case_studies       # Pripadove studie
-- team_members       # Clenove tymu
-- blog_posts         # Blog clanky
-- clients            # Klienti (loga)
-- settings           # Nastaveni webu
+- services              # Sluzby
+- pricing_plans         # Cenove plany
+- faqs                  # Casto kladene otazky
+- testimonials          # Reference/recenze
+- case_studies          # Pripadove studie
+- team_members          # Clenove tymu
+- blog_posts            # Blog clanky
+- clients               # Klienti (loga)
+- settings              # Nastaveni webu
+- process_steps         # Kroky spoluprace
+- certifications        # Certifikace a partnerstvi
+- page_seo              # SEO nastaveni pro stranky
 ```
 
 ## Admin panel - funkce
@@ -128,12 +132,19 @@ Kompletni sprava pro:
 - **Tym** - jmeno, pozice, bio, kontakt
 - **Blog** - nazev, obsah (Quill WYSIWYG), kategorie, SEO
 - **Klienti** - nazev, logo, web
+- **Kroky spoluprace** - proces jak to funguje
+- **Certifikace** - loga partneru a certifikaci
 
 ### Specialni funkce
 - Quill WYSIWYG editor pro blog clanky
 - Flash zpravy (uspech/chyba)
 - Aktivace/deaktivace obsahu
 - Razeni (sort_order)
+- SEO nastaveni pro kazdou stranku
+- Tracking & Analytics (GTM, GA4, FB Pixel, Sklik, Ecomail)
+- Cenova kalkulacka
+- Zmena hesla
+- Rate limiting na prihlaseni (5 pokusu, 15 min blokace)
 
 ## Deployment
 
@@ -153,13 +164,9 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 ```
 
 ### Inicializace databaze
-1. Spustit `setup-db.php` v prohlizeci nebo
-2. Importovat `database/schema.sql` do phpMyAdmin
-
-### Seed data (vychozi obsah)
-1. Nahrat `admin/seed.php` na server
-2. Spustit: `/admin/seed.php?key=socialhero2025seed`
-3. Ihned smazat soubor ze serveru!
+1. Importovat `database/schema.sql` do phpMyAdmin
+2. Spustit updaty: `update_v2.sql`, `update_v3.sql`
+3. Vytvorit admin uzivatele primo v DB nebo pres registraci
 
 ## URL struktura
 
@@ -184,6 +191,9 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 - `/admin/team` - Tym
 - `/admin/blog` - Blog
 - `/admin/clients` - Klienti
+- `/admin/process-steps` - Kroky spoluprace
+- `/admin/certifications` - Certifikace
+- `/admin/page-seo` - SEO stranky
 - `/admin/settings` - Nastaveni
 
 ## GitHub
@@ -194,8 +204,8 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 ### Bezpecnost
 - `.env` soubor NIKDY nepushovat na Git!
 - Admin heslo zmenit po prvnim prihlaseni!
-- Seed skript smazat po pouziti!
-- Vychozi prihlaseni: admin@socialhero.cz / admin123
+- Rate limiting: 5 neuspesnych pokusu = 15 min blokace
+- Citlive slozky chraneny .htaccess (app/, config/, database/, admin/Controllers/, admin/Views/)
 
 ### Vyvoj
 - Pro lokalni vyvoj: `php -S localhost:8000 -t public`

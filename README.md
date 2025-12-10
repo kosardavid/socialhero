@@ -43,6 +43,8 @@ Moderni webova prezentace pro marketingovou agenturu - online marketing na klic.
   - Ecomail
   - Vlastni HEAD/BODY skripty
 - Nastaveni webu (kontakty, socialni site, kalkulacka)
+- Zmena hesla
+- Rate limiting na prihlaseni (5 pokusu, 15 min blokace)
 
 ## Tech Stack
 
@@ -57,9 +59,9 @@ Moderni webova prezentace pro marketingovou agenturu - online marketing na klic.
 
 1. Naklonovat repozitar
 2. Zkopirovat `.env.example` na `.env` a vyplnit udaje
-3. Importovat `database/schema.sql`
+3. Importovat `database/schema.sql` do phpMyAdmin
 4. Spustit updaty: `database/update_v2.sql`, `database/update_v3.sql`
-5. Spustit seed: `/admin/seed.php?key=socialhero2025seed`
+5. Vytvorit admin uzivatele v databazi (tabulka `admin_users`)
 
 ## Databazove updaty
 

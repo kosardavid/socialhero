@@ -233,22 +233,6 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 - Zmeny v PHP souborech se neprojevi okamzite
 - Reseni: pockat nebo restartovat PHP pres admin panel
 
-### Opravneni slozek (POTREBA OPRAVIT!)
-Slozky na serveru maji spatna opravneni (750 misto 755).
-**Favicon a CSS se nenacitaji!**
-
-**Oprava pres Wedos FileManager nebo FileZilla:**
-1. Slozka `assets` a vsechny podslozky → **755**
-2. Soubory v assets → **644**
-
-### chdir() warning
-Na webu se zobrazuje warning:
-```
-Warning: chdir(): No such file or directory (errno 2) in index.php on line 9
-```
-Toto **neni v nasem kodu** - pravdepodobne auto_prepend_file od Wedosu.
-Zkontrolovat v Wedos admin → PHP nastaveni.
-
 ## Dulezite poznamky
 
 ### Bezpecnost
@@ -264,5 +248,25 @@ Zkontrolovat v Wedos admin → PHP nastaveni.
 
 ### Frontend nacitani dat
 - Vsechny stranky nacitaji data z databaze
-- Pokud je tabulka prazdna, pouziji se vychozi (hardcoded) data
-- Po naplneni DB se automaticky pouziji data z DB
+- Pokud je tabulka prazdna, pouziji se fallback data (krome blogu)
+- Blog zobrazuje "Pripravujeme clanky" pokud neni zadny clanek v DB
+- Fallback data jsou v `PageController.php` (getDefaultServices, getDefaultPricing, atd.)
+
+## Wedos server struktura
+```
+/ (root - DocumentRoot pro www)
+├── .htaccess          # Presmerovani na domain folder
+├── index.php          # Include domains/socialhero.cz/index.php
+├── robots.txt
+├── sitemap.xml
+└── domains/
+    └── socialhero.cz/
+        ├── .htaccess  # Bezpecnost a routing
+        ├── index.php  # Hlavni aplikace
+        ├── .env       # Pristupove udaje
+        ├── assets/    # CSS, JS, images
+        ├── app/       # MVC framework
+        ├── admin/     # Admin panel
+        ├── config/    # Konfigurace
+        └── database/  # SQL soubory
+```

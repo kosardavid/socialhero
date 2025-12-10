@@ -407,15 +407,6 @@ class PageController
 
     private function getDefaultBlogPosts(): array
     {
-        return [
-            [
-                'title' => 'Jak na úspěšnou Meta Ads kampaň v roce 2025',
-                'slug' => 'uspesna-meta-ads-kampan-2025',
-                'excerpt' => 'Kompletní průvodce nastavením reklamních kampaní na Facebooku a Instagramu.',
-                'featured_image' => '/assets/images/blog/meta-ads.jpg',
-                'created_at' => '2025-01-15',
-                'category' => 'Meta Ads',
-            ],
-        ];
+        return [];
     }
 }

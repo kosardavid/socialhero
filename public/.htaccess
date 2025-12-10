@@ -41,10 +41,14 @@
 # Disable directory browsing
 Options -Indexes
 
-# Protect sensitive files
+# Protect sensitive files (dotfiles like .env, .htaccess, .git)
 <FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
+    Require all denied
+</FilesMatch>
+
+# Block access to sensitive file types
+<FilesMatch "\.(env|sql|log|bak|config|ini|sh)$">
+    Require all denied
 </FilesMatch>
 
 # Cache static assets

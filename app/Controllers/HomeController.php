@@ -101,10 +101,10 @@ class HomeController
 
     private function getStats(): array
     {
-        // Try to load from page_content table
+        // Try to load from page_content table (global stats used across all pages)
         try {
             $rows = Database::fetchAll(
-                "SELECT field, content FROM page_content WHERE page = 'home' AND section = 'stats'"
+                "SELECT field, content FROM page_content WHERE page = 'global' AND section = 'stats'"
             );
 
             if (!empty($rows)) {

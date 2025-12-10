@@ -112,6 +112,7 @@ socialhero/
 - process_steps         # Kroky spoluprace
 - certifications        # Certifikace a partnerstvi
 - page_seo              # SEO nastaveni pro stranky
+- page_content          # Editovatelny obsah stranek (texty, badge, titulky)
 ```
 
 ## Admin panel - funkce
@@ -145,6 +146,8 @@ Kompletni sprava pro:
 - Cenova kalkulacka
 - Zmena hesla
 - Rate limiting na prihlaseni (5 pokusu, 15 min blokace)
+- **Obsah stranek** - editace vsech textu na webu (badge, titulky, popisy)
+- **Globalni statistiky** - spolecne pro homepage a O nas (150+, 24h, 40%, 5+)
 
 ## Deployment
 
@@ -165,7 +168,7 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 
 ### Inicializace databaze
 1. Importovat `database/schema.sql` do phpMyAdmin
-2. Spustit updaty: `update_v2.sql`, `update_v3.sql`
+2. Spustit updaty: `update_v2.sql`, `update_v3.sql`, `update_v4_page_content.sql`
 3. Vytvorit admin uzivatele primo v DB nebo pres registraci
 
 ## URL struktura
@@ -193,6 +196,7 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 - `/admin/clients` - Klienti
 - `/admin/process-steps` - Kroky spoluprace
 - `/admin/certifications` - Certifikace
+- `/admin/page-content` - Obsah stranek (texty)
 - `/admin/page-seo` - SEO stranky
 - `/admin/settings` - Nastaveni
 
@@ -211,6 +215,18 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 - **HTTPS redirect** - vynuceny v .htaccess
 - **Cookie consent banner** - GDPR kompatibilni, ulozeni do localStorage
 - **Responzivni design** - opraveno pro mobily (cookie banner, toast, newsletter form)
+
+## Frontend animace
+
+### Stats Counter
+- Animovane pocitadlo statistik (150+, 24h, 40%, 5+)
+- Spusti se pri scrollu na sekci (IntersectionObserver, threshold 0.3)
+- Podporuje formaty: cisla, procenta, hodiny (24h), plus suffix
+
+### Process Timeline
+- Kroky "Cesta k uspechu" se zobrazuji postupne zleva doprava
+- Animace se spusti az pri scrollu na 70% sekce (threshold 0.7)
+- Kazdy krok ma 400ms zpozdeni vuci predchozimu
 
 ### Soubory na serveru
 ```

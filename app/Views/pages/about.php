@@ -104,20 +104,20 @@
     <div class="container">
         <div class="stats__grid">
             <div class="stats__item">
-                <div class="stats__number">5+</div>
-                <div class="stats__label">Let zkušeností</div>
+                <div class="stats__number"><?= \App\Core\View::c('global', 'stats', 'stat1_value', '150+') ?></div>
+                <div class="stats__label"><?= \App\Core\View::c('global', 'stats', 'stat1_label', 'Spokojených klientů') ?></div>
             </div>
             <div class="stats__item">
-                <div class="stats__number">150+</div>
-                <div class="stats__label">Spokojených klientů</div>
+                <div class="stats__number"><?= \App\Core\View::c('global', 'stats', 'stat2_value', '24h') ?></div>
+                <div class="stats__label"><?= \App\Core\View::c('global', 'stats', 'stat2_label', 'Průměrná odezva') ?></div>
             </div>
             <div class="stats__item">
-                <div class="stats__number">500+</div>
-                <div class="stats__label">Úspěšných kampaní</div>
+                <div class="stats__number"><?= \App\Core\View::c('global', 'stats', 'stat3_value', '40%') ?></div>
+                <div class="stats__label"><?= \App\Core\View::c('global', 'stats', 'stat3_label', 'Průměrný nárůst konverzí') ?></div>
             </div>
             <div class="stats__item">
-                <div class="stats__number">40%</div>
-                <div class="stats__label">Průměrný růst konverzí</div>
+                <div class="stats__number"><?= \App\Core\View::c('global', 'stats', 'stat4_value', '5+') ?></div>
+                <div class="stats__label"><?= \App\Core\View::c('global', 'stats', 'stat4_label', 'Let zkušeností') ?></div>
             </div>
         </div>
     </div>

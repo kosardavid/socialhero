@@ -10,7 +10,6 @@ $pageDefinitions = [
         'icon' => 'home',
         'sections' => [
             'hero' => 'Hero sekce',
-            'stats' => 'Statistiky (pod hero)',
             'services' => 'Sekce služeb',
             'process' => 'Proces spolupráce',
             'whyus' => 'Proč my',
@@ -30,7 +29,6 @@ $pageDefinitions = [
             'story' => 'Náš příběh',
             'values' => 'Hodnoty',
             'team' => 'Tým',
-            'stats' => 'Statistiky',
             'cta' => 'CTA sekce'
         ]
     ],
@@ -86,6 +84,7 @@ $pageDefinitions = [
         'label' => 'Globální prvky',
         'icon' => 'globe',
         'sections' => [
+            'stats' => 'Statistiky (na všech stránkách)',
             'header' => 'Header',
             'footer' => 'Footer',
             'cookie' => 'Cookie lišta'
@@ -191,16 +190,6 @@ function getFieldsForSection($page, $section) {
                 'float_2' => ['label' => 'Plovoucí badge 2', 'type' => 'text'],
                 'float_3' => ['label' => 'Plovoucí badge 3', 'type' => 'text'],
             ],
-            'stats' => [
-                'stat1_value' => ['label' => 'Statistika 1 - Hodnota', 'type' => 'text', 'help' => 'např. 150+'],
-                'stat1_label' => ['label' => 'Statistika 1 - Popis', 'type' => 'text', 'help' => 'např. Spokojených klientů'],
-                'stat2_value' => ['label' => 'Statistika 2 - Hodnota', 'type' => 'text'],
-                'stat2_label' => ['label' => 'Statistika 2 - Popis', 'type' => 'text'],
-                'stat3_value' => ['label' => 'Statistika 3 - Hodnota', 'type' => 'text'],
-                'stat3_label' => ['label' => 'Statistika 3 - Popis', 'type' => 'text'],
-                'stat4_value' => ['label' => 'Statistika 4 - Hodnota', 'type' => 'text'],
-                'stat4_label' => ['label' => 'Statistika 4 - Popis', 'type' => 'text'],
-            ],
             'services' => [
                 'badge' => ['label' => 'Badge', 'type' => 'text'],
                 'title' => ['label' => 'Nadpis sekce', 'type' => 'text'],
@@ -273,16 +262,6 @@ function getFieldsForSection($page, $section) {
                 'badge' => ['label' => 'Badge', 'type' => 'text'],
                 'title' => ['label' => 'Nadpis', 'type' => 'text'],
                 'description' => ['label' => 'Popis', 'type' => 'textarea', 'rows' => 2],
-            ],
-            'stats' => [
-                'stat1_value' => ['label' => 'Statistika 1 - Hodnota', 'type' => 'text', 'help' => 'např. 5+'],
-                'stat1_label' => ['label' => 'Statistika 1 - Popis', 'type' => 'text'],
-                'stat2_value' => ['label' => 'Statistika 2 - Hodnota', 'type' => 'text'],
-                'stat2_label' => ['label' => 'Statistika 2 - Popis', 'type' => 'text'],
-                'stat3_value' => ['label' => 'Statistika 3 - Hodnota', 'type' => 'text'],
-                'stat3_label' => ['label' => 'Statistika 3 - Popis', 'type' => 'text'],
-                'stat4_value' => ['label' => 'Statistika 4 - Hodnota', 'type' => 'text'],
-                'stat4_label' => ['label' => 'Statistika 4 - Popis', 'type' => 'text'],
             ],
             'cta' => [
                 'title' => ['label' => 'Nadpis', 'type' => 'text'],
@@ -386,6 +365,16 @@ function getFieldsForSection($page, $section) {
             ],
         ],
         'global' => [
+            'stats' => [
+                'stat1_value' => ['label' => 'Statistika 1 - Hodnota', 'type' => 'text', 'help' => 'např. 150+'],
+                'stat1_label' => ['label' => 'Statistika 1 - Popis', 'type' => 'text', 'help' => 'např. Spokojených klientů'],
+                'stat2_value' => ['label' => 'Statistika 2 - Hodnota', 'type' => 'text'],
+                'stat2_label' => ['label' => 'Statistika 2 - Popis', 'type' => 'text'],
+                'stat3_value' => ['label' => 'Statistika 3 - Hodnota', 'type' => 'text'],
+                'stat3_label' => ['label' => 'Statistika 3 - Popis', 'type' => 'text'],
+                'stat4_value' => ['label' => 'Statistika 4 - Hodnota', 'type' => 'text'],
+                'stat4_label' => ['label' => 'Statistika 4 - Popis', 'type' => 'text'],
+            ],
             'header' => [
                 'cta' => ['label' => 'Text CTA tlačítka', 'type' => 'text'],
             ],

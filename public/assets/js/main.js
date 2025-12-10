@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initForms();
     initAnimations();
     initLazyLoading();
+    initStatsCounter();
+    initProcessTimeline();
 });
 
 /**
@@ -305,4 +307,122 @@ function throttle(func, limit) {
             setTimeout(() => inThrottle = false, limit);
         }
     };
+}
+
+/**
+ * Stats Counter Animation
+ */
+function initStatsCounter() {
+    const statsSection = document.querySelector('.stats');
+    if (!statsSection) return;
+
+    const statsNumbers = statsSection.querySelectorAll('.stats__number');
+    let animated = false;
+
+    function animateNumber(element) {
+        const text = element.textContent.trim();
+        // Extract number and suffix (e.g., "150+" -> 150 and "+", "24h" -> 24 and "h", "40%" -> 40 and "%")
+        const match = text.match(/^([\d,.\s]+)(.*)$/);
+        if (!match) return;
+
+        const targetNumber = parseFloat(match[1].replace(/[,\s]/g, '').replace('.', ','));
+        const suffix = match[2] || '';
+        const duration = 2000; // 2 seconds
+        const startTime = performance.now();
+        const startNumber = 0;
+
+        // Check if it's a decimal number
+        const isDecimal = text.includes(',') || text.includes('.');
+        const decimalPlaces = isDecimal ? (text.split(/[,.]/).pop().match(/\d+/)?.[0]?.length || 0) : 0;
+
+        function updateNumber(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Easing function (ease-out)
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            const currentNumber = startNumber + (targetNumber - startNumber) * easeOut;
+
+            if (isDecimal) {
+                element.textContent = currentNumber.toFixed(decimalPlaces).replace('.', ',') + suffix;
+            } else {
+                element.textContent = Math.floor(currentNumber) + suffix;
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(updateNumber);
+            } else {
+                // Ensure final value is exact
+                element.textContent = text;
+            }
+        }
+
+        requestAnimationFrame(updateNumber);
+    }
+
+    function handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !animated) {
+                animated = true;
+                statsNumbers.forEach(num => animateNumber(num));
+            }
+        });
+    }
+
+    // Use IntersectionObserver if available
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(handleIntersection, {
+            threshold: 0.3
+        });
+        observer.observe(statsSection);
+    } else {
+        // Fallback: animate immediately
+        statsNumbers.forEach(num => animateNumber(num));
+    }
+}
+
+/**
+ * Process Timeline Animation
+ * Steps appear one by one from left to right with connecting line
+ */
+function initProcessTimeline() {
+    const processSection = document.querySelector('.process');
+    if (!processSection) return;
+
+    const timeline = processSection.querySelector('.process__timeline');
+    const steps = processSection.querySelectorAll('.process__step');
+    if (!timeline || steps.length === 0) return;
+
+    let animated = false;
+
+    function animateSteps() {
+        if (animated) return;
+        animated = true;
+
+        // Animate each step with delay (left to right)
+        steps.forEach((step, index) => {
+            setTimeout(() => {
+                step.classList.add('animate-visible');
+            }, index * 400); // 400ms delay between each step
+        });
+    }
+
+    function handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !animated) {
+                animateSteps();
+            }
+        });
+    }
+
+    // Use IntersectionObserver if available
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(handleIntersection, {
+            threshold: 0.7
+        });
+        observer.observe(processSection);
+    } else {
+        // Fallback: animate immediately
+        animateSteps();
+    }
 }

@@ -114,7 +114,7 @@
             </div>
         </header>
 
-        <div class="main-body">
+        <div class="main-body<?= ($currentPage ?? '') === 'settings' ? ' main-body--has-floating-actions' : '' ?>">
             <?php if (isset($_SESSION['flash_success'])): ?>
             <div class="alert alert--success">
                 <?= htmlspecialchars($_SESSION['flash_success']) ?>

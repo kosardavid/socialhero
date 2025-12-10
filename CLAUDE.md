@@ -148,6 +148,7 @@ Kompletni sprava pro:
 - Rate limiting na prihlaseni (5 pokusu, 15 min blokace)
 - **Obsah stranek** - editace vsech textu na webu (badge, titulky, popisy)
 - **Globalni statistiky** - spolecne pro homepage a O nas (150+, 24h, 40%, 5+)
+- **Plovouci tlacitko Ulozit** - na strance Nastaveni je tlacitko fixne dole
 
 ## Deployment
 
@@ -227,6 +228,15 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 - Kroky "Cesta k uspechu" se zobrazuji postupne zleva doprava
 - Animace se spusti az pri scrollu na 70% sekce (threshold 0.7)
 - Kazdy krok ma 400ms zpozdeni vuci predchozimu
+
+### Phone Mockup Slider (Reels Showcase)
+- Sekce "Ukazka prace" s 3 telefony zobrazujicimi videa/YouTube shorts
+- **Desktop:** 3 telefony vedle sebe s 3D transformaci (levy/pravy naklonene, prostredni vetsi)
+- **Mobil (do 768px):** Slider s jednim telefonem, navigacni sipky a tecky
+- Lazy loading videi - spusti se az pri 50% viditelnosti sekce (IntersectionObserver)
+- Touch swipe podpora pro mobilni zarizeni
+- Konfigurace v admin panelu: Nastaveni > Reels Showcase (video/youtube/image/text)
+- YouTube shorts se automaticky zvetsují na 180% sirky pro oriznutí cernych pruhu
 
 ### Soubory na serveru
 ```

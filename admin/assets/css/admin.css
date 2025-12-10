@@ -231,6 +231,11 @@ a {
     padding: 2rem;
 }
 
+/* Add bottom padding when floating save button is present */
+.main-body--has-floating-actions {
+    padding-bottom: 5rem;
+}
+
 /* ===== Forms ===== */
 .form-group {
     margin-bottom: 1rem;
@@ -279,6 +284,28 @@ a {
     margin-top: 1.5rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--admin-border);
+}
+
+/* Floating save button for settings page */
+.form-actions--floating {
+    position: fixed;
+    bottom: 0;
+    left: 260px;
+    right: 0;
+    margin: 0;
+    padding: 1rem 2rem;
+    background: var(--admin-sidebar);
+    border-top: 1px solid var(--admin-border);
+    z-index: 90;
+    display: flex;
+    justify-content: flex-end;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1024px) {
+    .form-actions--floating {
+        left: 70px;
+    }
 }
 
 /* ===== Buttons ===== */

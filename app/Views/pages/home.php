@@ -148,6 +148,416 @@
 </section>
 <?php endif; ?>
 
+<!-- Reels Showcase Section -->
+<?php
+// Helper function to extract YouTube video ID from URL or ID
+function extractYoutubeId($input) {
+    if (empty($input)) return '';
+    $input = trim($input);
+
+    // If it's already just an ID (11 characters, alphanumeric with - and _)
+    if (preg_match('/^[a-zA-Z0-9_-]{11}$/', $input)) {
+        return $input;
+    }
+
+    // Try to extract from various YouTube URL formats
+    // youtube.com/shorts/ID
+    if (preg_match('/youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/', $input, $matches)) {
+        return $matches[1];
+    }
+    // youtube.com/watch?v=ID
+    if (preg_match('/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/', $input, $matches)) {
+        return $matches[1];
+    }
+    // youtu.be/ID
+    if (preg_match('/youtu\.be\/([a-zA-Z0-9_-]{11})/', $input, $matches)) {
+        return $matches[1];
+    }
+    // youtube.com/embed/ID
+    if (preg_match('/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/', $input, $matches)) {
+        return $matches[1];
+    }
+
+    return $input; // Return as-is if no pattern matched
+}
+
+$reelTypes = [
+    1 => \App\Core\View::setting('reel_1_type', 'video'),
+    2 => \App\Core\View::setting('reel_2_type', 'video'),
+    3 => \App\Core\View::setting('reel_3_type', 'video'),
+];
+$reelVideos = [
+    1 => \App\Core\View::setting('reel_1_video', ''),
+    2 => \App\Core\View::setting('reel_2_video', ''),
+    3 => \App\Core\View::setting('reel_3_video', ''),
+];
+$reelYoutubes = [
+    1 => extractYoutubeId(\App\Core\View::setting('reel_1_youtube', '')),
+    2 => extractYoutubeId(\App\Core\View::setting('reel_2_youtube', '')),
+    3 => extractYoutubeId(\App\Core\View::setting('reel_3_youtube', '')),
+];
+$reelImages = [
+    1 => \App\Core\View::setting('reel_1_image', ''),
+    2 => \App\Core\View::setting('reel_2_image', ''),
+    3 => \App\Core\View::setting('reel_3_image', ''),
+];
+$reelTexts = [
+    1 => \App\Core\View::setting('reel_1_text', ''),
+    2 => \App\Core\View::setting('reel_2_text', ''),
+    3 => \App\Core\View::setting('reel_3_text', ''),
+];
+$reelLabels = [
+    1 => \App\Core\View::setting('reel_1_label', ''),
+    2 => \App\Core\View::setting('reel_2_label', ''),
+    3 => \App\Core\View::setting('reel_3_label', ''),
+];
+?>
+<style>
+/* Phone slider navigation - hidden on desktop */
+.phone-slider-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.phone-slider-nav__btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(124, 58, 237, 0.2);
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.phone-slider-nav__btn:hover {
+    background: rgba(124, 58, 237, 0.4);
+}
+.phone-slider-nav__btn svg {
+    width: 20px;
+    height: 20px;
+}
+.phone-slider-nav__dots {
+    display: flex;
+    gap: 0.5rem;
+}
+.phone-slider-nav__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.phone-slider-nav__dot.active {
+    background: #7c3aed;
+    transform: scale(1.2);
+}
+
+/* Mobile phone slider */
+@media (max-width: 768px) {
+    .reels-showcase__phones {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 400px;
+    }
+    .reels-showcase__phone {
+        position: absolute;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    .reels-showcase__phone.active {
+        position: relative;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .reels-showcase__phone--left,
+    .reels-showcase__phone--right,
+    .reels-showcase__phone--center {
+        transform: none !important;
+    }
+    .phone-frame,
+    .phone-frame--large {
+        width: 220px !important;
+        height: 440px !important;
+        background: linear-gradient(145deg, #1a1a2e, #0a0a0f) !important;
+        border: 3px solid #333 !important;
+        border-radius: 30px !important;
+        position: relative !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+    }
+    .phone-frame__screen {
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 27px !important;
+        overflow: hidden !important;
+        position: relative !important;
+    }
+    .phone-frame__video,
+    .phone-frame__image {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    .phone-frame__youtube {
+        width: 180% !important;
+        height: 100% !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+    .phone-frame__notch {
+        display: none !important;
+    }
+    .phone-slider-nav {
+        display: flex !important;
+    }
+}
+</style>
+<section class="reels-showcase section">
+    <div class="container">
+        <div class="section__header">
+            <span class="section__badge">Ukázka práce</span>
+            <h2 class="section__title">
+                A jak to
+                <span class="text-gradient">vypadá?</span>
+            </h2>
+            <p class="section__description">
+                Podívejte se na ukázky našich Reels a videí pro klienty.
+            </p>
+        </div>
+
+        <div class="reels-showcase__slider">
+            <div class="reels-showcase__phones">
+                <?php
+                $positions = [1 => 'left', 2 => 'center', 3 => 'right'];
+                foreach ([1, 2, 3] as $i):
+                    $position = $positions[$i];
+                    $isLarge = $i === 2 ? ' phone-frame--large' : '';
+                ?>
+                <!-- Phone <?= $i ?> -->
+                <div class="reels-showcase__phone reels-showcase__phone--<?= $position ?>" data-index="<?= $i ?>">
+                    <div class="phone-frame<?= $isLarge ?>" data-has-sound="<?= ($reelTypes[$i] === 'video' || $reelTypes[$i] === 'youtube') ? '1' : '0' ?>">
+                        <div class="phone-frame__notch"></div>
+                        <div class="phone-frame__screen">
+                            <?php if ($reelTypes[$i] === 'video' && !empty($reelVideos[$i])): ?>
+                                <video class="phone-frame__video" muted loop playsinline preload="metadata">
+                                    <source src="<?= htmlspecialchars($reelVideos[$i]) ?>" type="video/mp4">
+                                </video>
+                            <?php elseif ($reelTypes[$i] === 'youtube' && !empty($reelYoutubes[$i])): ?>
+                                <iframe class="phone-frame__youtube" id="yt-player-<?= $i ?>"
+                                    data-src="https://www.youtube.com/embed/<?= htmlspecialchars($reelYoutubes[$i]) ?>?autoplay=1&mute=1&loop=1&playlist=<?= htmlspecialchars($reelYoutubes[$i]) ?>&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&origin=https://socialhero.cz"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            <?php elseif ($reelTypes[$i] === 'image' && !empty($reelImages[$i])): ?>
+                                <img src="<?= htmlspecialchars($reelImages[$i]) ?>" alt="<?= htmlspecialchars($reelLabels[$i] ?: 'Reel ' . $i) ?>" class="phone-frame__image">
+                            <?php elseif ($reelTypes[$i] === 'text' && !empty($reelTexts[$i])): ?>
+                                <div class="phone-frame__text-content">
+                                    <?= nl2br(htmlspecialchars($reelTexts[$i])) ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="phone-frame__placeholder">
+                                    <i data-feather="play-circle"></i>
+                                    <span><?= htmlspecialchars($reelLabels[$i] ?: 'Video ' . $i) ?></span>
+                                </div>
+                            <?php endif; ?>
+                            <?php if (!empty($reelLabels[$i]) && ($reelTypes[$i] !== 'text' || empty($reelTexts[$i]))): ?>
+                                <div class="phone-frame__label"><?= htmlspecialchars($reelLabels[$i]) ?></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+
+            <!-- Mobile slider navigation -->
+            <div class="phone-slider-nav">
+                <button class="phone-slider-nav__btn phone-slider-nav__btn--prev" aria-label="Předchozí">
+                    <i data-feather="chevron-left"></i>
+                </button>
+                <div class="phone-slider-nav__dots">
+                    <span class="phone-slider-nav__dot active" data-index="1"></span>
+                    <span class="phone-slider-nav__dot" data-index="2"></span>
+                    <span class="phone-slider-nav__dot" data-index="3"></span>
+                </div>
+                <button class="phone-slider-nav__btn phone-slider-nav__btn--next" aria-label="Další">
+                    <i data-feather="chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Phone slider for mobile + lazy load videos
+(function() {
+    var reelsSection = document.querySelector('.reels-showcase');
+    if (!reelsSection) return;
+
+    var phones = reelsSection.querySelectorAll('.reels-showcase__phone');
+    var dots = reelsSection.querySelectorAll('.phone-slider-nav__dot');
+    var prevBtn = reelsSection.querySelector('.phone-slider-nav__btn--prev');
+    var nextBtn = reelsSection.querySelector('.phone-slider-nav__btn--next');
+    var currentIndex = 1;
+    var loaded = false;
+
+    function isMobile() {
+        return window.innerWidth <= 768;
+    }
+
+    function showPhone(index) {
+        if (!isMobile()) return;
+
+        phones.forEach(function(phone) {
+            var phoneIndex = parseInt(phone.getAttribute('data-index'));
+            phone.classList.remove('active');
+            if (phoneIndex === index) {
+                phone.classList.add('active');
+            }
+        });
+
+        dots.forEach(function(dot) {
+            var dotIndex = parseInt(dot.getAttribute('data-index'));
+            dot.classList.toggle('active', dotIndex === index);
+        });
+
+        currentIndex = index;
+
+        // Play video of current phone, pause others
+        phones.forEach(function(phone) {
+            var phoneIndex = parseInt(phone.getAttribute('data-index'));
+            var video = phone.querySelector('.phone-frame__video');
+            if (video) {
+                if (phoneIndex === index) {
+                    video.play().catch(function() {});
+                } else {
+                    video.pause();
+                }
+            }
+        });
+    }
+
+    function nextPhone() {
+        var next = currentIndex + 1;
+        if (next > 3) next = 1;
+        showPhone(next);
+    }
+
+    function prevPhone() {
+        var prev = currentIndex - 1;
+        if (prev < 1) prev = 3;
+        showPhone(prev);
+    }
+
+    // Event listeners
+    if (prevBtn) prevBtn.addEventListener('click', prevPhone);
+    if (nextBtn) nextBtn.addEventListener('click', nextPhone);
+
+    dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+            showPhone(parseInt(this.getAttribute('data-index')));
+        });
+    });
+
+    // Initialize on mobile
+    function init() {
+        if (isMobile()) {
+            // Remove desktop classes, add active to first
+            phones.forEach(function(phone) {
+                phone.classList.remove('active');
+            });
+            showPhone(1);
+        } else {
+            // Desktop: remove active class, restore positions
+            phones.forEach(function(phone) {
+                phone.classList.remove('active');
+            });
+            // Play all videos on desktop
+            reelsSection.querySelectorAll('.phone-frame__video').forEach(function(video) {
+                video.play().catch(function() {});
+            });
+        }
+    }
+
+    window.addEventListener('resize', init);
+
+    // Lazy load videos when section is visible
+    function loadVideos() {
+        if (loaded) return;
+        loaded = true;
+
+        // Load YouTube iframes
+        reelsSection.querySelectorAll('.phone-frame__youtube[data-src]').forEach(function(iframe) {
+            iframe.src = iframe.getAttribute('data-src');
+            iframe.removeAttribute('data-src');
+        });
+
+        // Play videos (or just current on mobile)
+        if (isMobile()) {
+            showPhone(1);
+        } else {
+            reelsSection.querySelectorAll('.phone-frame__video').forEach(function(video) {
+                video.play().catch(function() {});
+            });
+        }
+    }
+
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting && !loaded) {
+                    loadVideos();
+                    observer.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(reelsSection);
+    } else {
+        loadVideos();
+    }
+
+    // Touch swipe support
+    var touchStartX = 0;
+    var touchEndX = 0;
+    var phonesContainer = reelsSection.querySelector('.reels-showcase__phones');
+
+    if (phonesContainer) {
+        phonesContainer.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        phonesContainer.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            var diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) { // minimum swipe distance
+                if (diff > 0) {
+                    nextPhone(); // swipe left = next
+                } else {
+                    prevPhone(); // swipe right = prev
+                }
+            }
+        }, { passive: true });
+    }
+
+    // Initialize immediately for mobile
+    init();
+})();
+</script>
+
 <!-- Why Choose Us Section -->
 <section class="section">
     <div class="container">

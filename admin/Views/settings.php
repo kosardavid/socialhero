@@ -91,6 +91,170 @@ ob_start();
 
     <div class="card">
         <div class="card__header">
+            <h3>Ukázka Reels - Telefony (Homepage)</h3>
+        </div>
+        <div class="card__body">
+            <p style="color: var(--color-text-muted); margin-bottom: 1.5rem;">
+                Nastavte obsah pro 3 telefony v sekci "A jak to vypadá?". Každý telefon může obsahovat video, obrázek nebo text.
+            </p>
+
+            <!-- Phone 1 -->
+            <div style="background: var(--color-bg-tertiary); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-feather="smartphone" style="width: 18px; height: 18px;"></i>
+                    Telefon 1 (Levý)
+                </h4>
+                <div class="form-group">
+                    <label class="form-label">Typ obsahu</label>
+                    <select name="reel_1_type" class="form-input" onchange="toggleReelFields(1, this.value)">
+                        <option value="video" <?= ($settingsArray['reel_1_type'] ?? 'video') === 'video' ? 'selected' : '' ?>>Video (MP4)</option>
+                        <option value="youtube" <?= ($settingsArray['reel_1_type'] ?? '') === 'youtube' ? 'selected' : '' ?>>YouTube Short</option>
+                        <option value="image" <?= ($settingsArray['reel_1_type'] ?? '') === 'image' ? 'selected' : '' ?>>Obrázek</option>
+                        <option value="text" <?= ($settingsArray['reel_1_type'] ?? '') === 'text' ? 'selected' : '' ?>>Text</option>
+                    </select>
+                </div>
+                <div class="form-group reel-field reel-1-video" style="display: <?= ($settingsArray['reel_1_type'] ?? 'video') === 'video' ? 'block' : 'none' ?>;">
+                    <label class="form-label">URL videa (MP4)</label>
+                    <input type="text" name="reel_1_video" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_1_video'] ?? '') ?>"
+                           placeholder="/assets/videos/reel1.mp4 nebo https://...">
+                    <small style="color: var(--color-text-muted);">Nahrajte MP4 video do /assets/videos/ nebo použijte externí URL.</small>
+                </div>
+                <div class="form-group reel-field reel-1-youtube" style="display: <?= ($settingsArray['reel_1_type'] ?? '') === 'youtube' ? 'block' : 'none' ?>;">
+                    <label class="form-label">YouTube Video ID</label>
+                    <input type="text" name="reel_1_youtube" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_1_youtube'] ?? '') ?>"
+                           placeholder="např. dQw4w9WgXcQ">
+                    <small style="color: var(--color-text-muted);">ID z URL: youtube.com/watch?v=<strong>ID</strong> nebo youtube.com/shorts/<strong>ID</strong></small>
+                </div>
+                <div class="form-group reel-field reel-1-image" style="display: <?= ($settingsArray['reel_1_type'] ?? '') === 'image' ? 'block' : 'none' ?>;">
+                    <label class="form-label">URL obrázku</label>
+                    <input type="text" name="reel_1_image" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_1_image'] ?? '') ?>"
+                           placeholder="/assets/images/reel1.jpg nebo https://...">
+                </div>
+                <div class="form-group reel-field reel-1-text" style="display: <?= ($settingsArray['reel_1_type'] ?? '') === 'text' ? 'block' : 'none' ?>;">
+                    <label class="form-label">Text obsah</label>
+                    <textarea name="reel_1_text" class="form-input" rows="3"
+                              placeholder="Např. +150% engagement"><?= htmlspecialchars($settingsArray['reel_1_text'] ?? '') ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Popisek (volitelné)</label>
+                    <input type="text" name="reel_1_label" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_1_label'] ?? '') ?>"
+                           placeholder="např. Fashion Brand">
+                </div>
+            </div>
+
+            <!-- Phone 2 -->
+            <div style="background: var(--color-bg-tertiary); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
+                <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-feather="smartphone" style="width: 18px; height: 18px;"></i>
+                    Telefon 2 (Střední - hlavní)
+                </h4>
+                <div class="form-group">
+                    <label class="form-label">Typ obsahu</label>
+                    <select name="reel_2_type" class="form-input" onchange="toggleReelFields(2, this.value)">
+                        <option value="video" <?= ($settingsArray['reel_2_type'] ?? 'video') === 'video' ? 'selected' : '' ?>>Video (MP4)</option>
+                        <option value="youtube" <?= ($settingsArray['reel_2_type'] ?? '') === 'youtube' ? 'selected' : '' ?>>YouTube Short</option>
+                        <option value="image" <?= ($settingsArray['reel_2_type'] ?? '') === 'image' ? 'selected' : '' ?>>Obrázek</option>
+                        <option value="text" <?= ($settingsArray['reel_2_type'] ?? '') === 'text' ? 'selected' : '' ?>>Text</option>
+                    </select>
+                </div>
+                <div class="form-group reel-field reel-2-video" style="display: <?= ($settingsArray['reel_2_type'] ?? 'video') === 'video' ? 'block' : 'none' ?>;">
+                    <label class="form-label">URL videa (MP4)</label>
+                    <input type="text" name="reel_2_video" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_2_video'] ?? '') ?>"
+                           placeholder="/assets/videos/reel2.mp4 nebo https://...">
+                </div>
+                <div class="form-group reel-field reel-2-youtube" style="display: <?= ($settingsArray['reel_2_type'] ?? '') === 'youtube' ? 'block' : 'none' ?>;">
+                    <label class="form-label">YouTube Video ID</label>
+                    <input type="text" name="reel_2_youtube" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_2_youtube'] ?? '') ?>"
+                           placeholder="např. dQw4w9WgXcQ">
+                    <small style="color: var(--color-text-muted);">ID z URL: youtube.com/watch?v=<strong>ID</strong> nebo youtube.com/shorts/<strong>ID</strong></small>
+                </div>
+                <div class="form-group reel-field reel-2-image" style="display: <?= ($settingsArray['reel_2_type'] ?? '') === 'image' ? 'block' : 'none' ?>;">
+                    <label class="form-label">URL obrázku</label>
+                    <input type="text" name="reel_2_image" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_2_image'] ?? '') ?>"
+                           placeholder="/assets/images/reel2.jpg nebo https://...">
+                </div>
+                <div class="form-group reel-field reel-2-text" style="display: <?= ($settingsArray['reel_2_type'] ?? '') === 'text' ? 'block' : 'none' ?>;">
+                    <label class="form-label">Text obsah</label>
+                    <textarea name="reel_2_text" class="form-input" rows="3"
+                              placeholder="Např. +150% engagement"><?= htmlspecialchars($settingsArray['reel_2_text'] ?? '') ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Popisek (volitelné)</label>
+                    <input type="text" name="reel_2_label" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_2_label'] ?? '') ?>"
+                           placeholder="např. Restaurant">
+                </div>
+            </div>
+
+            <!-- Phone 3 -->
+            <div style="background: var(--color-bg-tertiary); padding: 1.5rem; border-radius: var(--radius-lg);">
+                <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i data-feather="smartphone" style="width: 18px; height: 18px;"></i>
+                    Telefon 3 (Pravý)
+                </h4>
+                <div class="form-group">
+                    <label class="form-label">Typ obsahu</label>
+                    <select name="reel_3_type" class="form-input" onchange="toggleReelFields(3, this.value)">
+                        <option value="video" <?= ($settingsArray['reel_3_type'] ?? 'video') === 'video' ? 'selected' : '' ?>>Video (MP4)</option>
+                        <option value="youtube" <?= ($settingsArray['reel_3_type'] ?? '') === 'youtube' ? 'selected' : '' ?>>YouTube Short</option>
+                        <option value="image" <?= ($settingsArray['reel_3_type'] ?? '') === 'image' ? 'selected' : '' ?>>Obrázek</option>
+                        <option value="text" <?= ($settingsArray['reel_3_type'] ?? '') === 'text' ? 'selected' : '' ?>>Text</option>
+                    </select>
+                </div>
+                <div class="form-group reel-field reel-3-video" style="display: <?= ($settingsArray['reel_3_type'] ?? 'video') === 'video' ? 'block' : 'none' ?>;">
+                    <label class="form-label">URL videa (MP4)</label>
+                    <input type="text" name="reel_3_video" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_3_video'] ?? '') ?>"
+                           placeholder="/assets/videos/reel3.mp4 nebo https://...">
+                </div>
+                <div class="form-group reel-field reel-3-youtube" style="display: <?= ($settingsArray['reel_3_type'] ?? '') === 'youtube' ? 'block' : 'none' ?>;">
+                    <label class="form-label">YouTube Video ID</label>
+                    <input type="text" name="reel_3_youtube" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_3_youtube'] ?? '') ?>"
+                           placeholder="např. dQw4w9WgXcQ">
+                    <small style="color: var(--color-text-muted);">ID z URL: youtube.com/watch?v=<strong>ID</strong> nebo youtube.com/shorts/<strong>ID</strong></small>
+                </div>
+                <div class="form-group reel-field reel-3-image" style="display: <?= ($settingsArray['reel_3_type'] ?? '') === 'image' ? 'block' : 'none' ?>;">
+                    <label class="form-label">URL obrázku</label>
+                    <input type="text" name="reel_3_image" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_3_image'] ?? '') ?>"
+                           placeholder="/assets/images/reel3.jpg nebo https://...">
+                </div>
+                <div class="form-group reel-field reel-3-text" style="display: <?= ($settingsArray['reel_3_type'] ?? '') === 'text' ? 'block' : 'none' ?>;">
+                    <label class="form-label">Text obsah</label>
+                    <textarea name="reel_3_text" class="form-input" rows="3"
+                              placeholder="Např. +150% engagement"><?= htmlspecialchars($settingsArray['reel_3_text'] ?? '') ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Popisek (volitelné)</label>
+                    <input type="text" name="reel_3_label" class="form-input"
+                           value="<?= htmlspecialchars($settingsArray['reel_3_label'] ?? '') ?>"
+                           placeholder="např. E-shop">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function toggleReelFields(phoneNum, type) {
+        document.querySelectorAll('.reel-' + phoneNum + '-video, .reel-' + phoneNum + '-youtube, .reel-' + phoneNum + '-image, .reel-' + phoneNum + '-text').forEach(el => {
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.reel-' + phoneNum + '-' + type).forEach(el => {
+            el.style.display = 'block';
+        });
+    }
+    </script>
+
+    <div class="card">
+        <div class="card__header">
             <h3>Live Chat (Tawk.to)</h3>
         </div>
         <div class="card__body">
@@ -272,7 +436,7 @@ ob_start();
         </div>
     </div>
 
-    <div class="form-actions">
+    <div class="form-actions form-actions--floating">
         <button type="submit" class="btn btn--primary">
             <i data-feather="save"></i>
             Uložit nastavení

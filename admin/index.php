@@ -192,6 +192,11 @@ switch ($route) {
         $controller->pageSeo();
         break;
 
+    // Page Content
+    case '/page-content':
+        $controller->pageContent();
+        break;
+
     default:
         // Dynamic routes with regex
         $matched = false;

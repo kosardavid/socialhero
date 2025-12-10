@@ -93,4 +93,42 @@ class View
 
         return $settings;
     }
+
+    /**
+     * Get page content from database
+     * @param string $page Page identifier (home, about, contact, etc.)
+     * @param string $section Section identifier (hero, services, cta, etc.)
+     * @param string $field Field identifier (title, description, badge, etc.)
+     * @param string $default Default value if not found
+     * @return string Content value
+     */
+    public static function content(string $page, string $section, string $field, string $default = ''): string
+    {
+        static $contentCache = null;
+
+        // Load all content on first call
+        if ($contentCache === null) {
+            try {
+                $rows = Database::fetchAll("SELECT page, section, field, content FROM page_content");
+                $contentCache = [];
+                foreach ($rows as $row) {
+                    $key = $row['page'] . '.' . $row['section'] . '.' . $row['field'];
+                    $contentCache[$key] = $row['content'];
+                }
+            } catch (\Exception $e) {
+                $contentCache = [];
+            }
+        }
+
+        $key = $page . '.' . $section . '.' . $field;
+        return $contentCache[$key] ?? $default;
+    }
+
+    /**
+     * Shorthand for getting content with HTML escaping
+     */
+    public static function c(string $page, string $section, string $field, string $default = ''): string
+    {
+        return htmlspecialchars(self::content($page, $section, $field, $default), ENT_QUOTES, 'UTF-8');
+    }
 }

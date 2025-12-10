@@ -960,6 +960,59 @@ class ContentController
         require ADMIN_PATH . '/Views/page-seo.php';
     }
 
+    // ==================== PAGE CONTENT ====================
+    public function pageContent(): void
+    {
+        // Handle POST - save content
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            try {
+                foreach ($_POST as $key => $value) {
+                    // Parse key: page_section_field
+                    $parts = explode('_', $key, 3);
+                    if (count($parts) !== 3) continue;
+
+                    [$page, $section, $field] = $parts;
+
+                    // Check if exists
+                    $existing = Database::fetch(
+                        "SELECT id FROM page_content WHERE page = ? AND section = ? AND field = ?",
+                        [$page, $section, $field]
+                    );
+
+                    if ($existing) {
+                        Database::query(
+                            "UPDATE page_content SET content = ?, updated_at = NOW() WHERE id = ?",
+                            [$value, $existing['id']]
+                        );
+                    } else {
+                        Database::insert('page_content', [
+                            'page' => $page,
+                            'section' => $section,
+                            'field' => $field,
+                            'content' => $value
+                        ]);
+                    }
+                }
+                $_SESSION['flash_success'] = 'Obsah byl uložen.';
+            } catch (\Exception $e) {
+                $_SESSION['flash_error'] = 'Chyba při ukládání: ' . $e->getMessage();
+            }
+
+            $redirectPage = $_POST['page'] ?? 'home';
+            header('Location: ' . $this->basePath . '/page-content?page=' . $redirectPage);
+            exit;
+        }
+
+        // Load all content
+        try {
+            $content = Database::fetchAll("SELECT * FROM page_content ORDER BY page, section, field");
+        } catch (\Exception $e) {
+            $content = [];
+        }
+
+        require ADMIN_PATH . '/Views/page-content.php';
+    }
+
     // ==================== HELPERS ====================
     private function slugify(string $text): string
     {

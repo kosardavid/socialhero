@@ -75,6 +75,10 @@
 
             <div class="sidebar__divider">Systém</div>
 
+            <a href="/admin/page-content" class="sidebar__link <?= ($currentPage ?? '') === 'page-content' ? 'active' : '' ?>">
+                <i data-feather="file-text"></i>
+                Obsah stránek
+            </a>
             <a href="/admin/page-seo" class="sidebar__link <?= ($currentPage ?? '') === 'page-seo' ? 'active' : '' ?>">
                 <i data-feather="search"></i>
                 SEO Stránek

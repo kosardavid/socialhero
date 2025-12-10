@@ -21,7 +21,7 @@ ob_start();
         <h3>Seznam členů týmu</h3>
     </div>
     <div class="card__body">
-        <?php if (empty($members)): ?>
+        <?php if (empty($team)): ?>
         <div class="empty-state">
             <i data-feather="users"></i>
             <p>Zatím nemáte žádné členy týmu.</p>
@@ -39,7 +39,7 @@ ob_start();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($members as $item): ?>
+                <?php foreach ($team as $item): ?>
                 <tr>
                     <td><strong><?= htmlspecialchars($item['name']) ?></strong></td>
                     <td><?= htmlspecialchars($item['position'] ?? '-') ?></td>

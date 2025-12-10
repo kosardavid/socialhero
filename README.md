@@ -48,7 +48,7 @@ Moderni webova prezentace pro marketingovou agenturu - online marketing na klic.
 
 ## Tech Stack
 
-- **Backend:** PHP 8.2 (vlastni MVC)
+- **Backend:** PHP 8.4 (vlastni MVC)
 - **Frontend:** HTML5, CSS3, Vanilla JS
 - **Databaze:** MariaDB 10.4
 - **WYSIWYG:** Quill Editor

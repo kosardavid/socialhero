@@ -87,7 +87,7 @@ socialhero/
 ```
 
 ## Technicky stack
-- **Backend:** PHP 8.2 (vlastni MVC framework)
+- **Backend:** PHP 8.4 (vlastni MVC framework)
 - **Frontend:** HTML5, CSS3 (vanilla), JavaScript (vanilla)
 - **Databaze:** MariaDB 10.4
 - **Hosting:** Wedos
@@ -150,7 +150,7 @@ Kompletni sprava pro:
 
 ### Hosting info
 - **Hosting:** Wedos
-- **PHP verze:** 8.2
+- **PHP verze:** 8.4
 - **FTP cesta:** /domains/socialhero.cz/
 - **Databaze:** MariaDB 10.4 na md395.wedos.net
 

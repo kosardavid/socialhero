@@ -1053,9 +1053,6 @@ p {
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
     transition: color var(--transition-fast);
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-sm);
 }
 
 .footer__list a:hover {
@@ -1065,6 +1062,18 @@ p {
 .footer__list svg {
     width: 16px;
     height: 16px;
+    flex-shrink: 0;
+}
+
+/* Contact list with icons */
+.footer__contact .footer__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+}
+
+.footer__contact .footer__list li svg {
+    margin-top: 2px;
 }
 
 .footer__newsletter {

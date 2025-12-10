@@ -1,0 +1,13 @@
+# SocialHero robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://socialhero.cz/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin/
+Disallow: /api/
+
+# Allow assets
+Allow: /assets/

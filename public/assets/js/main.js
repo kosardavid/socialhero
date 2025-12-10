@@ -9,7 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     initForms();
     initAnimations();
+    initLazyLoading();
 });
+
+/**
+ * Lazy Loading for images
+ */
+function initLazyLoading() {
+    // Add loading="lazy" to all images that don't have it
+    document.querySelectorAll('img:not([loading])').forEach(img => {
+        img.setAttribute('loading', 'lazy');
+    });
+}
 
 /**
  * Navigation

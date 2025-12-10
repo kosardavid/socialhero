@@ -33,6 +33,37 @@ $globalSettings = \App\Core\View::getSettings();
     <!-- Icons (Feather Icons via CDN) -->
     <script src="https://unpkg.com/feather-icons"></script>
 
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "MarketingAgency",
+        "name": "SocialHero",
+        "description": "<?= htmlspecialchars($globalSettings['default_meta_description'] ?? 'Veškerý online marketing v jednom předplatném.') ?>",
+        "url": "https://socialhero.cz",
+        "logo": "https://socialhero.cz/assets/images/favicon.svg",
+        "sameAs": [
+            <?php if (!empty($globalSettings['social_facebook'])): ?>"<?= htmlspecialchars($globalSettings['social_facebook']) ?>"<?php endif; ?>
+            <?php if (!empty($globalSettings['social_facebook']) && !empty($globalSettings['social_instagram'])): ?>,<?php endif; ?>
+            <?php if (!empty($globalSettings['social_instagram'])): ?>"<?= htmlspecialchars($globalSettings['social_instagram']) ?>"<?php endif; ?>
+            <?php if ((!empty($globalSettings['social_facebook']) || !empty($globalSettings['social_instagram'])) && !empty($globalSettings['social_linkedin'])): ?>,<?php endif; ?>
+            <?php if (!empty($globalSettings['social_linkedin'])): ?>"<?= htmlspecialchars($globalSettings['social_linkedin']) ?>"<?php endif; ?>
+        ],
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "CZ"
+            <?php if (!empty($globalSettings['contact_address'])): ?>,"streetAddress": "<?= htmlspecialchars($globalSettings['contact_address']) ?>"<?php endif; ?>
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "customer service"
+            <?php if (!empty($globalSettings['contact_email'])): ?>,"email": "<?= htmlspecialchars($globalSettings['contact_email']) ?>"<?php endif; ?>
+            <?php if (!empty($globalSettings['contact_phone'])): ?>,"telephone": "<?= htmlspecialchars($globalSettings['contact_phone']) ?>"<?php endif; ?>
+        },
+        "priceRange": "$$"
+    }
+    </script>
+
     <?php // Google Tag Manager - HEAD ?>
     <?php if (!empty($globalSettings['gtm_id'])): ?>
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

@@ -19,7 +19,7 @@
       "Bash(for file in app/Core/App.php app/Core/Database.php app/Core/Router.php app/Core/View.php)",
       "Bash(for file in app/Controllers/ContactController.php app/Controllers/HomeController.php app/Controllers/PageController.php)",
       "Bash(for:*)",
-      "Bash(do curl -s -T \"$file\" -u w387379_kosar:jp9L3aUK \"ftp://387379.w79.wedos.net/domains/socialhero.cz/new/$file\")",
+      "Bash(do curl -s -T \"$file\" -u \"w387379_kosar:jp9L3aUK\" \"ftp://387379.w79.wedos.net/domains/socialhero.cz/$file\")",
       "Bash(echo:*)",
       "Bash(tree:*)",
       "Bash(git add:*)",

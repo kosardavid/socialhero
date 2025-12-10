@@ -10,7 +10,7 @@ ob_start();
         <p>Proces spolupráce zobrazený na homepage</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/process-steps/create" class="btn btn--primary">
+        <a href="/admin/process-steps/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat krok
         </a>
     </div>
@@ -29,7 +29,7 @@ ob_start();
             <i data-feather="list"></i>
             <h3>Žádné kroky</h3>
             <p>Zatím nemáte žádné kroky spolupráce.</p>
-            <a href="/new/admin/process-steps/create" class="btn btn--primary">Přidat první krok</a>
+            <a href="/admin/process-steps/create" class="btn btn--primary">Přidat první krok</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -61,10 +61,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/new/admin/process-steps/<?= $item['id'] ?>/edit" class="btn btn--secondary btn--small">
+                            <a href="/admin/process-steps/<?= $item['id'] ?>/edit" class="btn btn--secondary btn--small">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/process-steps/<?= $item['id'] ?>/delete"
+                            <a href="/admin/process-steps/<?= $item['id'] ?>/delete"
                                class="btn btn--danger btn--small"
                                onclick="return confirm('Opravdu smazat tento krok?')">
                                 <i data-feather="trash-2"></i>

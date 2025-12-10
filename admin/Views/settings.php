@@ -5,7 +5,7 @@ $currentPage = 'settings';
 ob_start();
 ?>
 
-<form method="POST" action="/new/admin/settings">
+<form method="POST" action="/admin/settings">
     <div class="card">
         <div class="card__header">
             <h3>Obecné nastavení</h3>
@@ -277,6 +277,50 @@ ob_start();
             <i data-feather="save"></i>
             Uložit nastavení
         </button>
+    </div>
+</form>
+
+<form method="POST" action="/admin/settings/password" style="margin-top: 2rem;">
+    <div class="card">
+        <div class="card__header">
+            <h3>Změna hesla</h3>
+        </div>
+        <div class="card__body">
+            <?php if (isset($_SESSION['password_success'])): ?>
+                <div class="alert alert--success" style="margin-bottom: 1rem;">
+                    <?= htmlspecialchars($_SESSION['password_success']) ?>
+                </div>
+                <?php unset($_SESSION['password_success']); ?>
+            <?php endif; ?>
+            <?php if (isset($_SESSION['password_error'])): ?>
+                <div class="alert alert--error" style="margin-bottom: 1rem;">
+                    <?= htmlspecialchars($_SESSION['password_error']) ?>
+                </div>
+                <?php unset($_SESSION['password_error']); ?>
+            <?php endif; ?>
+
+            <div class="form-group">
+                <label class="form-label">Aktuální heslo</label>
+                <input type="password" name="current_password" class="form-input" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Nové heslo</label>
+                    <input type="password" name="new_password" class="form-input" required minlength="8">
+                    <small style="color: var(--color-text-muted);">Minimálně 8 znaků.</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Potvrzení nového hesla</label>
+                    <input type="password" name="confirm_password" class="form-input" required minlength="8">
+                </div>
+            </div>
+        </div>
+        <div class="card__footer">
+            <button type="submit" class="btn btn--secondary">
+                <i data-feather="lock"></i>
+                Změnit heslo
+            </button>
+        </div>
     </div>
 </form>
 

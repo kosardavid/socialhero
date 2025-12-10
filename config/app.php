@@ -7,7 +7,7 @@
 return [
     'name' => 'SocialHero',
     'url' => 'https://socialhero.cz',
-    'base_path' => '/new',
+    'base_path' => '',
 
     'meta' => [
         'title' => 'SocialHero | Online Marketing na Klíč',

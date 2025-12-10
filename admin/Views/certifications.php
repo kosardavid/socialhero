@@ -10,7 +10,7 @@ ob_start();
         <p>Badges zobrazené na homepage</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/certifications/create" class="btn btn--primary">
+        <a href="/admin/certifications/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat certifikaci
         </a>
     </div>
@@ -29,7 +29,7 @@ ob_start();
             <i data-feather="award"></i>
             <h3>Žádné certifikace</h3>
             <p>Zatím nemáte žádné certifikace nebo partnerství.</p>
-            <a href="/new/admin/certifications/create" class="btn btn--primary">Přidat první</a>
+            <a href="/admin/certifications/create" class="btn btn--primary">Přidat první</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -67,10 +67,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/new/admin/certifications/<?= $item['id'] ?>/edit" class="btn btn--secondary btn--small">
+                            <a href="/admin/certifications/<?= $item['id'] ?>/edit" class="btn btn--secondary btn--small">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/certifications/<?= $item['id'] ?>/delete"
+                            <a href="/admin/certifications/<?= $item['id'] ?>/delete"
                                class="btn btn--danger btn--small"
                                onclick="return confirm('Opravdu smazat tuto certifikaci?')">
                                 <i data-feather="trash-2"></i>

@@ -52,7 +52,7 @@ ob_start();
                         <?php endif; ?>
                     </td>
                     <td>
-                        <a href="/new/admin/contacts/<?= $contact['id'] ?>" class="btn btn--sm btn--secondary">
+                        <a href="/admin/contacts/<?= $contact['id'] ?>" class="btn btn--sm btn--secondary">
                             Detail
                         </a>
                     </td>

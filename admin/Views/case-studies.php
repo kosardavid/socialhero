@@ -10,7 +10,7 @@ ob_start();
         <p class="text-muted">Reference a case studies vašich klientů.</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/case-studies/create" class="btn btn--primary">
+        <a href="/admin/case-studies/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat referenci
         </a>
     </div>
@@ -25,7 +25,7 @@ ob_start();
         <div class="empty-state">
             <i data-feather="briefcase"></i>
             <p>Zatím nemáte žádné reference.</p>
-            <a href="/new/admin/case-studies/create" class="btn btn--primary">Přidat první referenci</a>
+            <a href="/admin/case-studies/create" class="btn btn--primary">Přidat první referenci</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -51,10 +51,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/new/admin/case-studies/<?= $item['id'] ?>/edit" class="btn btn--small btn--secondary">
+                            <a href="/admin/case-studies/<?= $item['id'] ?>/edit" class="btn btn--small btn--secondary">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/case-studies/<?= $item['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
+                            <a href="/admin/case-studies/<?= $item['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
                                 <i data-feather="trash-2"></i>
                             </a>
                         </div>

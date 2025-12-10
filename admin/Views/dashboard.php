@@ -24,7 +24,7 @@ ob_start();
             <div class="stat-card__label">Nepřečtených poptávek</div>
         </div>
         <?php if (($stats['unread_contacts'] ?? 0) > 0): ?>
-        <a href="/new/admin/contacts" class="stat-card__link">Zobrazit</a>
+        <a href="/admin/contacts" class="stat-card__link">Zobrazit</a>
         <?php endif; ?>
     </div>
 
@@ -62,37 +62,37 @@ ob_start();
 <!-- Content Stats -->
 <h3 style="margin: 2rem 0 1rem; font-size: 1.1rem; color: var(--color-text-secondary);">Obsah webu</h3>
 <div class="stats-grid stats-grid--small">
-    <a href="/new/admin/services" class="stat-card stat-card--mini">
+    <a href="/admin/services" class="stat-card stat-card--mini">
         <i data-feather="layers"></i>
         <span class="stat-card__value"><?= $stats['services'] ?? 0 ?></span>
         <span class="stat-card__label">Služeb</span>
     </a>
-    <a href="/new/admin/pricing" class="stat-card stat-card--mini">
+    <a href="/admin/pricing" class="stat-card stat-card--mini">
         <i data-feather="credit-card"></i>
         <span class="stat-card__value"><?= $stats['pricing_plans'] ?? 0 ?></span>
         <span class="stat-card__label">Ceníků</span>
     </a>
-    <a href="/new/admin/faqs" class="stat-card stat-card--mini">
+    <a href="/admin/faqs" class="stat-card stat-card--mini">
         <i data-feather="help-circle"></i>
         <span class="stat-card__value"><?= $stats['faqs'] ?? 0 ?></span>
         <span class="stat-card__label">FAQ</span>
     </a>
-    <a href="/new/admin/testimonials" class="stat-card stat-card--mini">
+    <a href="/admin/testimonials" class="stat-card stat-card--mini">
         <i data-feather="message-square"></i>
         <span class="stat-card__value"><?= $stats['testimonials'] ?? 0 ?></span>
         <span class="stat-card__label">Recenzí</span>
     </a>
-    <a href="/new/admin/team" class="stat-card stat-card--mini">
+    <a href="/admin/team" class="stat-card stat-card--mini">
         <i data-feather="users"></i>
         <span class="stat-card__value"><?= $stats['team_members'] ?? 0 ?></span>
         <span class="stat-card__label">V týmu</span>
     </a>
-    <a href="/new/admin/blog" class="stat-card stat-card--mini">
+    <a href="/admin/blog" class="stat-card stat-card--mini">
         <i data-feather="edit-3"></i>
         <span class="stat-card__value"><?= $stats['blog_posts'] ?? 0 ?></span>
         <span class="stat-card__label">Článků</span>
     </a>
-    <a href="/new/admin/clients" class="stat-card stat-card--mini">
+    <a href="/admin/clients" class="stat-card stat-card--mini">
         <i data-feather="award"></i>
         <span class="stat-card__value"><?= $stats['clients'] ?? 0 ?></span>
         <span class="stat-card__label">Klientů</span>
@@ -154,7 +154,7 @@ ob_start();
     <div class="card">
         <div class="card__header">
             <h3>Poslední poptávky</h3>
-            <a href="/new/admin/contacts" class="btn btn--sm btn--secondary">Zobrazit vše</a>
+            <a href="/admin/contacts" class="btn btn--sm btn--secondary">Zobrazit vše</a>
         </div>
         <div class="card__body">
             <?php if (empty($recentContacts)): ?>
@@ -173,7 +173,7 @@ ob_start();
                     <?php foreach ($recentContacts as $contact): ?>
                     <tr>
                         <td>
-                            <a href="/new/admin/contacts/<?= $contact['id'] ?>">
+                            <a href="/admin/contacts/<?= $contact['id'] ?>">
                                 <?= htmlspecialchars($contact['name']) ?>
                             </a>
                         </td>

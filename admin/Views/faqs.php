@@ -10,7 +10,7 @@ ob_start();
         <p class="text-muted">Často kladené dotazy</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/faqs/create" class="btn btn--primary">
+        <a href="/admin/faqs/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat FAQ
         </a>
     </div>
@@ -22,7 +22,7 @@ ob_start();
         <div class="empty-state">
             <i data-feather="help-circle"></i>
             <p>Zatím nemáte žádné FAQ.</p>
-            <a href="/new/admin/faqs/create" class="btn btn--primary">Přidat první FAQ</a>
+            <a href="/admin/faqs/create" class="btn btn--primary">Přidat první FAQ</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -46,10 +46,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a href="/new/admin/faqs/<?= $f['id'] ?>/edit" class="btn btn--small btn--secondary">
+                            <a href="/admin/faqs/<?= $f['id'] ?>/edit" class="btn btn--small btn--secondary">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/faqs/<?= $f['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
+                            <a href="/admin/faqs/<?= $f['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
                                 <i data-feather="trash-2"></i>
                             </a>
                         </div>

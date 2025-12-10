@@ -4,8 +4,8 @@ Moderni webova prezentace pro marketingovou agenturu - online marketing na klic.
 
 ## Demo
 
-- **Web:** https://socialhero.cz/new/
-- **Admin:** https://socialhero.cz/new/admin/
+- **Web:** https://socialhero.cz/
+- **Admin:** https://socialhero.cz/admin/
 
 ## Funkce
 

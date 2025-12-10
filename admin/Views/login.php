@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Přihlášení | SocialHero Admin</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/images/favicon.svg">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/new/admin/assets/css/admin.css">
+    <link rel="stylesheet" href="/admin/assets/css/admin.css">
 </head>
 <body class="login-page">
     <div class="login-container">
@@ -21,7 +22,7 @@
             </div>
             <?php endif; ?>
 
-            <form method="POST" action="/new/admin/login" class="login-form">
+            <form method="POST" action="/admin/login" class="login-form">
                 <div class="form-group">
                     <label class="form-label" for="email">E-mail</label>
                     <input type="email" id="email" name="email" class="form-input" required autofocus
@@ -39,7 +40,7 @@
             </form>
 
             <p class="login-footer">
-                <a href="/new/">Zpět na web</a>
+                <a href="/">Zpět na web</a>
             </p>
         </div>
     </div>

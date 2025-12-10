@@ -2,7 +2,11 @@
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /new/admin/
+    RewriteBase /admin/
+
+    # Block direct access to PHP files in subdirectories
+    RewriteCond %{REQUEST_URI} ^/admin/(Controllers|Views)/ [NC]
+    RewriteRule \.php$ - [F,L]
 
     # Don't rewrite files or directories
     RewriteCond %{REQUEST_FILENAME} !-f
@@ -15,7 +19,14 @@
 # Security
 Options -Indexes
 
+# Block hidden files
 <FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block direct PHP access in subdirectories
+<FilesMatch "^(seed|setup|install|config)\.php$">
     Order allow,deny
     Deny from all
 </FilesMatch>

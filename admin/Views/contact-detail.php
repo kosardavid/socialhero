@@ -6,7 +6,7 @@ ob_start();
 ?>
 
 <div class="page-actions">
-    <a href="/new/admin/contacts" class="btn btn--secondary">
+    <a href="/admin/contacts" class="btn btn--secondary">
         <i data-feather="arrow-left"></i>
         Zpět na seznam
     </a>

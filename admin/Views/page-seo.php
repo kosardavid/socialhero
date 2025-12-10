@@ -14,7 +14,7 @@ ob_start();
             Nastavte meta title a description pro každou stránku webu. Tyto hodnoty se zobrazí ve výsledcích vyhledávání.
         </p>
 
-        <form method="POST" action="/new/admin/page-seo">
+        <form method="POST" action="/admin/page-seo">
             <?php foreach ($pages as $page): ?>
             <div style="border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.5rem; background: var(--color-bg-tertiary);">
                 <h4 style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">

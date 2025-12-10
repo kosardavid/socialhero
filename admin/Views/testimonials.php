@@ -10,7 +10,7 @@ ob_start();
         <p class="text-muted">Reference a hodnocení od klientů.</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/testimonials/create" class="btn btn--primary">
+        <a href="/admin/testimonials/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat testimonial
         </a>
     </div>
@@ -25,7 +25,7 @@ ob_start();
         <div class="empty-state">
             <i data-feather="message-square"></i>
             <p>Zatím nemáte žádné testimonials.</p>
-            <a href="/new/admin/testimonials/create" class="btn btn--primary">Přidat první testimonial</a>
+            <a href="/admin/testimonials/create" class="btn btn--primary">Přidat první testimonial</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -57,10 +57,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/new/admin/testimonials/<?= $item['id'] ?>/edit" class="btn btn--small btn--secondary">
+                            <a href="/admin/testimonials/<?= $item['id'] ?>/edit" class="btn btn--small btn--secondary">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/testimonials/<?= $item['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
+                            <a href="/admin/testimonials/<?= $item['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
                                 <i data-feather="trash-2"></i>
                             </a>
                         </div>

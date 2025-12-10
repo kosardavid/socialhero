@@ -1259,6 +1259,26 @@ p {
     transform: translateY(0);
 }
 
+/* Card animations (JS controlled) */
+.animate-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-card.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fallback for no-JS: show everything */
+@media (scripting: none) {
+    .animate-card {
+        opacity: 1;
+        transform: none;
+    }
+}
+
 /* ===== Loading State ===== */
 .loading {
     position: relative;

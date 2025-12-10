@@ -5,7 +5,7 @@
     RewriteEngine On
 
     # Set base path
-    RewriteBase /new/
+    RewriteBase /
 
     # Force HTTPS (uncomment in production)
     # RewriteCond %{HTTPS} off

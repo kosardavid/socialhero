@@ -10,7 +10,7 @@ ob_start();
         <p class="text-muted">Služby zobrazené na webu</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/services/create" class="btn btn--primary">
+        <a href="/admin/services/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat službu
         </a>
     </div>
@@ -22,7 +22,7 @@ ob_start();
         <div class="empty-state">
             <i data-feather="layers"></i>
             <p>Zatím nemáte žádné služby.</p>
-            <a href="/new/admin/services/create" class="btn btn--primary">Přidat první službu</a>
+            <a href="/admin/services/create" class="btn btn--primary">Přidat první službu</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -50,10 +50,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a href="/new/admin/services/<?= $s['id'] ?>/edit" class="btn btn--small btn--secondary">
+                            <a href="/admin/services/<?= $s['id'] ?>/edit" class="btn btn--small btn--secondary">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/services/<?= $s['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
+                            <a href="/admin/services/<?= $s['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
                                 <i data-feather="trash-2"></i>
                             </a>
                         </div>

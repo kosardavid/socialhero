@@ -5,7 +5,7 @@ use App\Core\Database;
 
 class ContentController
 {
-    private string $basePath = '/new/admin';
+    private string $basePath = '/admin';
 
     // ==================== CONTACTS ====================
     public function contacts(): void
@@ -730,6 +730,54 @@ class ContentController
             $_SESSION['flash_success'] = 'Nastavení bylo uloženo.';
         } catch (\Exception $e) {
             $_SESSION['flash_error'] = 'Chyba při ukládání nastavení.';
+        }
+
+        header('Location: ' . $this->basePath . '/settings');
+        exit;
+    }
+
+    public function changePassword(): void
+    {
+        $currentPassword = $_POST['current_password'] ?? '';
+        $newPassword = $_POST['new_password'] ?? '';
+        $confirmPassword = $_POST['confirm_password'] ?? '';
+
+        // Get current user
+        $userId = $_SESSION['admin_user']['id'] ?? null;
+        if (!$userId) {
+            header('Location: ' . $this->basePath . '/login');
+            exit;
+        }
+
+        try {
+            $user = Database::fetch("SELECT * FROM users WHERE id = ?", [$userId]);
+
+            if (!$user || !password_verify($currentPassword, $user['password'])) {
+                $_SESSION['password_error'] = 'Aktuální heslo není správné.';
+                header('Location: ' . $this->basePath . '/settings');
+                exit;
+            }
+
+            if (strlen($newPassword) < 8) {
+                $_SESSION['password_error'] = 'Nové heslo musí mít minimálně 8 znaků.';
+                header('Location: ' . $this->basePath . '/settings');
+                exit;
+            }
+
+            if ($newPassword !== $confirmPassword) {
+                $_SESSION['password_error'] = 'Hesla se neshodují.';
+                header('Location: ' . $this->basePath . '/settings');
+                exit;
+            }
+
+            // Update password
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            Database::update('users', ['password' => $hashedPassword], 'id = ?', [$userId]);
+
+            $_SESSION['password_success'] = 'Heslo bylo úspěšně změněno.';
+
+        } catch (\Exception $e) {
+            $_SESSION['password_error'] = 'Chyba při změně hesla.';
         }
 
         header('Location: ' . $this->basePath . '/settings');

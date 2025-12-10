@@ -140,16 +140,16 @@ Kompletni sprava pro:
 ### Hosting info
 - **Hosting:** Wedos
 - **PHP verze:** 8.2
-- **FTP cesta:** /domains/socialhero.cz/new/
+- **FTP cesta:** /domains/socialhero.cz/
 - **Databaze:** MariaDB 10.4 na md395.wedos.net
 
 ### FTP deploy (curl)
 ```bash
 # Jednotlivy soubor
-curl -T soubor.php -u USER:PASS ftp://HOST/domains/socialhero.cz/new/cesta/soubor.php
+curl -T soubor.php -u USER:PASS ftp://HOST/domains/socialhero.cz/cesta/soubor.php
 
 # Priklad
-curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wedos.net/domains/socialhero.cz/new/admin/Views/dashboard.php"
+curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wedos.net/domains/socialhero.cz/admin/Views/dashboard.php"
 ```
 
 ### Inicializace databaze
@@ -158,7 +158,7 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 
 ### Seed data (vychozi obsah)
 1. Nahrat `admin/seed.php` na server
-2. Spustit: `/new/admin/seed.php?key=socialhero2025seed`
+2. Spustit: `/admin/seed.php?key=socialhero2025seed`
 3. Ihned smazat soubor ze serveru!
 
 ## URL struktura

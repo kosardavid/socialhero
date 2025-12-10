@@ -52,7 +52,7 @@ use Admin\Controllers\ContentController;
 
 // Simple routing
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$basePath = '/new/admin';
+$basePath = '/admin';
 $route = str_replace($basePath, '', $uri);
 $route = rtrim($route, '/') ?: '/';
 
@@ -166,6 +166,9 @@ switch ($route) {
     // Settings
     case '/settings':
         $controller->settings();
+        break;
+    case '/settings/password':
+        $controller->changePassword();
         break;
 
     // Process Steps CRUD

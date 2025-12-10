@@ -180,7 +180,7 @@ async function handleNewsletterForm(e) {
 
     try {
         const formData = new FormData(form);
-        const response = await fetch('/new/api/newsletter', {
+        const response = await fetch('/api/newsletter', {
             method: 'POST',
             body: formData
         });
@@ -233,31 +233,40 @@ function showToast(message, type = 'success') {
  * Scroll Animations
  */
 function initAnimations() {
+    // Check if IntersectionObserver is supported
+    if (!('IntersectionObserver' in window)) {
+        return; // Skip animations if not supported
+    }
+
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
-        threshold: 0.1
+        rootMargin: '50px',
+        threshold: 0.05
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('animate-visible');
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
     // Animate cards only (not sections - those should be visible immediately)
-    const animateElements = document.querySelectorAll('.service-card, .pricing-card, .testimonial-card');
+    const animateElements = document.querySelectorAll('.service-card, .pricing-card, .testimonial-card, .case-study-card');
 
     animateElements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        el.classList.add('animate-card');
         el.style.transitionDelay = `${Math.min(index * 0.1, 0.5)}s`;
         observer.observe(el);
+
+        // Fallback: show after 1.5s if observer didn't trigger
+        setTimeout(() => {
+            if (!el.classList.contains('animate-visible')) {
+                el.classList.add('animate-visible');
+            }
+        }, 1500);
     });
 }
 

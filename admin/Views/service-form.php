@@ -7,7 +7,7 @@ $features = $service ? implode("\n", json_decode($service['features'] ?? '[]', t
 
 <div class="content-header">
     <div class="content-header__left">
-        <a href="/new/admin/services" class="btn btn--secondary btn--small">
+        <a href="/admin/services" class="btn btn--secondary btn--small">
             <i data-feather="arrow-left"></i> Zpět
         </a>
     </div>
@@ -88,7 +88,7 @@ $features = $service ? implode("\n", json_decode($service['features'] ?? '[]', t
                 <button type="submit" class="btn btn--primary">
                     <i data-feather="save"></i> Uložit
                 </button>
-                <a href="/new/admin/services" class="btn btn--secondary">Zrušit</a>
+                <a href="/admin/services" class="btn btn--secondary">Zrušit</a>
             </div>
         </div>
     </div>

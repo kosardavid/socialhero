@@ -10,7 +10,7 @@ ob_start();
         <p class="text-muted">Členové vašeho týmu.</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/team/create" class="btn btn--primary">
+        <a href="/admin/team/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat člena
         </a>
     </div>
@@ -25,7 +25,7 @@ ob_start();
         <div class="empty-state">
             <i data-feather="users"></i>
             <p>Zatím nemáte žádné členy týmu.</p>
-            <a href="/new/admin/team/create" class="btn btn--primary">Přidat prvního člena</a>
+            <a href="/admin/team/create" class="btn btn--primary">Přidat prvního člena</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -51,10 +51,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="table-actions">
-                            <a href="/new/admin/team/<?= $item['id'] ?>/edit" class="btn btn--small btn--secondary">
+                            <a href="/admin/team/<?= $item['id'] ?>/edit" class="btn btn--small btn--secondary">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/team/<?= $item['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
+                            <a href="/admin/team/<?= $item['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
                                 <i data-feather="trash-2"></i>
                             </a>
                         </div>

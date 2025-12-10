@@ -10,7 +10,7 @@ ob_start();
         <p class="text-muted">Cenové plány zobrazené na webu</p>
     </div>
     <div class="content-header__right">
-        <a href="/new/admin/pricing/create" class="btn btn--primary">
+        <a href="/admin/pricing/create" class="btn btn--primary">
             <i data-feather="plus"></i> Přidat plán
         </a>
     </div>
@@ -22,7 +22,7 @@ ob_start();
         <div class="empty-state">
             <i data-feather="credit-card"></i>
             <p>Zatím nemáte žádné cenové plány.</p>
-            <a href="/new/admin/pricing/create" class="btn btn--primary">Přidat první plán</a>
+            <a href="/admin/pricing/create" class="btn btn--primary">Přidat první plán</a>
         </div>
         <?php else: ?>
         <table class="table">
@@ -56,10 +56,10 @@ ob_start();
                     </td>
                     <td>
                         <div class="btn-group">
-                            <a href="/new/admin/pricing/<?= $p['id'] ?>/edit" class="btn btn--small btn--secondary">
+                            <a href="/admin/pricing/<?= $p['id'] ?>/edit" class="btn btn--small btn--secondary">
                                 <i data-feather="edit-2"></i>
                             </a>
-                            <a href="/new/admin/pricing/<?= $p['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
+                            <a href="/admin/pricing/<?= $p['id'] ?>/delete" class="btn btn--small btn--danger" onclick="return confirm('Opravdu smazat?')">
                                 <i data-feather="trash-2"></i>
                             </a>
                         </div>

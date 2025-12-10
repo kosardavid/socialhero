@@ -1,3 +1,4 @@
+<?php $settings = \App\Core\View::getSettings(); ?>
 <!-- Page Header -->
 <section class="page-header">
     <div class="container">
@@ -97,35 +98,41 @@
 
             <!-- Contact Info -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <?php if (!empty($settings['contact_email'])): ?>
                 <div style="padding: 1.5rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); text-align: center;">
                     <div style="width: 48px; height: 48px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: rgba(124, 58, 237, 0.1); border-radius: var(--radius-lg);">
                         <i data-feather="mail" style="color: var(--color-accent-secondary);"></i>
                     </div>
                     <h4 style="margin-bottom: 0.5rem;">E-mail</h4>
-                    <a href="mailto:info@socialhero.cz" style="color: var(--color-text-secondary);">
-                        info@socialhero.cz
+                    <a href="mailto:<?= htmlspecialchars($settings['contact_email']) ?>" style="color: var(--color-text-secondary);">
+                        <?= htmlspecialchars($settings['contact_email']) ?>
                     </a>
                 </div>
+                <?php endif; ?>
 
+                <?php if (!empty($settings['contact_phone'])): ?>
                 <div style="padding: 1.5rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); text-align: center;">
                     <div style="width: 48px; height: 48px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: rgba(124, 58, 237, 0.1); border-radius: var(--radius-lg);">
                         <i data-feather="phone" style="color: var(--color-accent-secondary);"></i>
                     </div>
                     <h4 style="margin-bottom: 0.5rem;">Telefon</h4>
-                    <a href="tel:+420123456789" style="color: var(--color-text-secondary);">
-                        +420 123 456 789
+                    <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $settings['contact_phone'])) ?>" style="color: var(--color-text-secondary);">
+                        <?= htmlspecialchars($settings['contact_phone']) ?>
                     </a>
                 </div>
+                <?php endif; ?>
 
+                <?php if (!empty($settings['contact_address'])): ?>
                 <div style="padding: 1.5rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); text-align: center;">
                     <div style="width: 48px; height: 48px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: rgba(124, 58, 237, 0.1); border-radius: var(--radius-lg);">
                         <i data-feather="map-pin" style="color: var(--color-accent-secondary);"></i>
                     </div>
                     <h4 style="margin-bottom: 0.5rem;">Adresa</h4>
                     <span style="color: var(--color-text-secondary);">
-                        Praha, Česká republika
+                        <?= htmlspecialchars($settings['contact_address']) ?>
                     </span>
                 </div>
+                <?php endif; ?>
 
                 <div style="padding: 1.5rem; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); text-align: center;">
                     <div style="width: 48px; height: 48px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: rgba(124, 58, 237, 0.1); border-radius: var(--radius-lg);">
@@ -152,15 +159,21 @@
         </div>
 
         <div style="display: flex; justify-content: center; gap: 1rem;">
-            <a href="#" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); color: var(--color-text-secondary); transition: all 0.2s;">
+            <?php if (!empty($settings['social_facebook'])): ?>
+            <a href="<?= htmlspecialchars($settings['social_facebook']) ?>" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); color: var(--color-text-secondary); transition: all 0.2s;">
                 <i data-feather="facebook" style="width: 24px; height: 24px;"></i>
             </a>
-            <a href="#" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); color: var(--color-text-secondary); transition: all 0.2s;">
+            <?php endif; ?>
+            <?php if (!empty($settings['social_instagram'])): ?>
+            <a href="<?= htmlspecialchars($settings['social_instagram']) ?>" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); color: var(--color-text-secondary); transition: all 0.2s;">
                 <i data-feather="instagram" style="width: 24px; height: 24px;"></i>
             </a>
-            <a href="#" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); color: var(--color-text-secondary); transition: all 0.2s;">
+            <?php endif; ?>
+            <?php if (!empty($settings['social_linkedin'])): ?>
+            <a href="<?= htmlspecialchars($settings['social_linkedin']) ?>" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-lg); color: var(--color-text-secondary); transition: all 0.2s;">
                 <i data-feather="linkedin" style="width: 24px; height: 24px;"></i>
             </a>
+            <?php endif; ?>
         </div>
     </div>
 </section>

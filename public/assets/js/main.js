@@ -311,39 +311,65 @@ function throttle(func, limit) {
 
 /**
  * Stats Counter Animation
+ * Compatible with iOS Safari, Android Chrome and all mobile browsers
  */
 function initStatsCounter() {
-    const statsSection = document.querySelector('.stats');
+    var statsSection = document.querySelector('.stats');
     if (!statsSection) return;
 
-    const statsNumbers = statsSection.querySelectorAll('.stats__number');
-    let animated = false;
+    var statsNumbers = statsSection.querySelectorAll('.stats__number');
+    if (!statsNumbers || statsNumbers.length === 0) return;
 
-    function animateNumber(element) {
-        const text = element.textContent.trim();
+    var animated = false;
+    var originalTexts = [];
+
+    // Store original texts immediately
+    for (var j = 0; j < statsNumbers.length; j++) {
+        originalTexts.push(statsNumbers[j].textContent.trim());
+    }
+
+    function animateNumber(element, originalText) {
+        var text = originalText || element.textContent.trim();
+        if (!text) return;
+
         // Extract number and suffix (e.g., "150+" -> 150 and "+", "24h" -> 24 and "h", "40%" -> 40 and "%")
-        const match = text.match(/^([\d,.\s]+)(.*)$/);
+        var match = text.match(/^([\d,.\s]+)(.*)$/);
         if (!match) return;
 
-        const targetNumber = parseFloat(match[1].replace(/[,\s]/g, '').replace('.', ','));
-        const suffix = match[2] || '';
-        const duration = 2000; // 2 seconds
-        const startTime = performance.now();
-        const startNumber = 0;
+        // Parse number - handle both comma and dot as decimal separator
+        var numStr = match[1].replace(/\s/g, '').replace(',', '.');
+        var targetNumber = parseFloat(numStr);
+        if (isNaN(targetNumber)) return;
 
-        // Check if it's a decimal number
-        const isDecimal = text.includes(',') || text.includes('.');
-        const decimalPlaces = isDecimal ? (text.split(/[,.]/).pop().match(/\d+/)?.[0]?.length || 0) : 0;
+        var suffix = match[2] || '';
+        var duration = 2000; // 2 seconds
+        var startTime = null;
+        var startNumber = 0;
+
+        // Check if original text has decimal
+        var isDecimal = text.indexOf(',') !== -1 || (text.indexOf('.') !== -1 && text.indexOf('.') < text.length - 2);
+        var decimalPlaces = 0;
+        if (isDecimal) {
+            var parts = text.split(/[,.]/);
+            if (parts.length > 1) {
+                var lastPart = parts[parts.length - 1].match(/\d+/);
+                decimalPlaces = lastPart ? lastPart[0].length : 0;
+            }
+        }
+
+        // Set to 0 first
+        element.textContent = '0' + suffix;
 
         function updateNumber(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
+            if (!startTime) startTime = currentTime;
+            var elapsed = currentTime - startTime;
+            var progress = Math.min(elapsed / duration, 1);
 
             // Easing function (ease-out)
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            const currentNumber = startNumber + (targetNumber - startNumber) * easeOut;
+            var easeOut = 1 - Math.pow(1 - progress, 3);
+            var currentNumber = startNumber + (targetNumber - startNumber) * easeOut;
 
-            if (isDecimal) {
+            if (isDecimal && decimalPlaces > 0) {
                 element.textContent = currentNumber.toFixed(decimalPlaces).replace('.', ',') + suffix;
             } else {
                 element.textContent = Math.floor(currentNumber) + suffix;
@@ -360,69 +386,175 @@ function initStatsCounter() {
         requestAnimationFrame(updateNumber);
     }
 
-    function handleIntersection(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !animated) {
-                animated = true;
-                statsNumbers.forEach(num => animateNumber(num));
-            }
-        });
+    function runAnimation() {
+        if (animated) return;
+        animated = true;
+
+        for (var i = 0; i < statsNumbers.length; i++) {
+            animateNumber(statsNumbers[i], originalTexts[i]);
+        }
     }
 
-    // Use IntersectionObserver if available
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(handleIntersection, {
-            threshold: 0.3
-        });
-        observer.observe(statsSection);
-    } else {
-        // Fallback: animate immediately
-        statsNumbers.forEach(num => animateNumber(num));
+    // Check if element is in viewport
+    function isInViewport(el) {
+        var rect = el.getBoundingClientRect();
+        var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        return rect.top < windowHeight && rect.bottom > 0;
     }
+
+    // Try IntersectionObserver first
+    if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function(entries) {
+            for (var i = 0; i < entries.length; i++) {
+                if (entries[i].isIntersecting && !animated) {
+                    runAnimation();
+                    observer.disconnect();
+                    break;
+                }
+            }
+        }, {
+            threshold: 0,  // Trigger as soon as any part is visible
+            rootMargin: '50px'  // Start 50px before element enters viewport
+        });
+
+        observer.observe(statsSection);
+
+        // Also check immediately if already visible
+        if (isInViewport(statsSection)) {
+            runAnimation();
+            observer.disconnect();
+        }
+    } else {
+        // Fallback for browsers without IntersectionObserver
+        function checkScroll() {
+            if (!animated && isInViewport(statsSection)) {
+                runAnimation();
+                window.removeEventListener('scroll', checkScroll);
+            }
+        }
+
+        window.addEventListener('scroll', checkScroll, { passive: true });
+        checkScroll();
+    }
+
+    // Fallback: if still not animated after 2 seconds, run it
+    setTimeout(function() {
+        if (!animated) {
+            runAnimation();
+        }
+    }, 2000);
 }
 
 /**
  * Process Timeline Animation
- * Steps appear one by one from left to right with connecting line
+ * Steps appear one by one from left to right
+ * Compatible with all browsers including mobile
  */
 function initProcessTimeline() {
-    const processSection = document.querySelector('.process');
+    var processSection = document.querySelector('.process');
     if (!processSection) return;
 
-    const timeline = processSection.querySelector('.process__timeline');
-    const steps = processSection.querySelectorAll('.process__step');
-    if (!timeline || steps.length === 0) return;
+    var steps = processSection.querySelectorAll('.process__step');
+    if (!steps || steps.length === 0) return;
 
-    let animated = false;
+    var animated = false;
+    var stepsReady = false;
 
+    // Prepare steps for animation (hide them)
+    function prepareSteps() {
+        if (stepsReady) return;
+        stepsReady = true;
+        for (var i = 0; i < steps.length; i++) {
+            steps[i].style.opacity = '0';
+            steps[i].style.transform = 'translateY(30px)';
+            steps[i].style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        }
+    }
+
+    // Animate steps one by one
     function animateSteps() {
         if (animated) return;
         animated = true;
 
-        // Animate each step with delay (left to right)
-        steps.forEach((step, index) => {
-            setTimeout(() => {
-                step.classList.add('animate-visible');
-            }, index * 400); // 400ms delay between each step
-        });
-    }
-
-    function handleIntersection(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !animated) {
-                animateSteps();
+        // If steps weren't prepared (JS ran late), just show them
+        if (!stepsReady) {
+            for (var j = 0; j < steps.length; j++) {
+                steps[j].style.opacity = '1';
+                steps[j].style.transform = 'translateY(0)';
             }
-        });
+            return;
+        }
+
+        for (var i = 0; i < steps.length; i++) {
+            (function(index) {
+                setTimeout(function() {
+                    if (steps[index]) {
+                        steps[index].style.opacity = '1';
+                        steps[index].style.transform = 'translateY(0)';
+                    }
+                }, index * 300);
+            })(i);
+        }
     }
 
-    // Use IntersectionObserver if available
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(handleIntersection, {
-            threshold: 0.7
-        });
-        observer.observe(processSection);
-    } else {
-        // Fallback: animate immediately
-        animateSteps();
+    function isInViewport(el) {
+        try {
+            var rect = el.getBoundingClientRect();
+            var windowHeight = window.innerHeight || document.documentElement.clientHeight || 800;
+            return rect.top < windowHeight && rect.bottom > 0;
+        } catch (e) {
+            return true;
+        }
     }
+
+    // Check if section is NOT in viewport yet - only then prepare for animation
+    if (!isInViewport(processSection)) {
+        prepareSteps();
+    }
+
+    if ('IntersectionObserver' in window) {
+        try {
+            var observer = new IntersectionObserver(function(entries) {
+                for (var i = 0; i < entries.length; i++) {
+                    if (entries[i].isIntersecting) {
+                        if (!stepsReady && !animated) {
+                            // Section visible but steps not hidden - just mark as animated
+                            animated = true;
+                        } else if (!animated) {
+                            animateSteps();
+                        }
+                        observer.disconnect();
+                        break;
+                    }
+                }
+            }, {
+                threshold: 0,
+                rootMargin: '50px'
+            });
+
+            observer.observe(processSection);
+        } catch (e) {
+            if (!animated) animateSteps();
+        }
+    } else {
+        // Fallback: scroll listener
+        function checkScroll() {
+            if (isInViewport(processSection) && !animated) {
+                animateSteps();
+                window.removeEventListener('scroll', checkScroll);
+            }
+        }
+        window.addEventListener('scroll', checkScroll, { passive: true });
+        // Check immediately
+        if (isInViewport(processSection) && !animated) {
+            animateSteps();
+        }
+    }
+
+    // Fallback: if steps are hidden but not animated after 1.5s, show them
+    setTimeout(function() {
+        if (stepsReady && !animated) {
+            animateSteps();
+        }
+    }, 1500);
 }

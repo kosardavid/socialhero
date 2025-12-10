@@ -95,6 +95,18 @@ class View
     }
 
     /**
+     * Get single setting value from database
+     * @param string $key Setting key
+     * @param string $default Default value if not found
+     * @return string Setting value
+     */
+    public static function setting(string $key, string $default = ''): string
+    {
+        $settings = self::getSettings();
+        return $settings[$key] ?? $default;
+    }
+
+    /**
      * Get page content from database
      * @param string $page Page identifier (home, about, contact, etc.)
      * @param string $section Section identifier (hero, services, cta, etc.)

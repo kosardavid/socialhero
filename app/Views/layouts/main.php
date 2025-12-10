@@ -25,7 +25,7 @@ $globalSettings = \App\Core\View::getSettings();
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="<?= \App\Core\View::asset('css/style.css') ?>?v=20251209">
+    <link rel="stylesheet" href="<?= \App\Core\View::asset('css/style.css') ?>?v=20251211b">
 
     <!-- Open Graph -->
     <meta property="og:title" content="<?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' | ' . htmlspecialchars($config['name']) : htmlspecialchars($globalSettings['default_meta_title'] ?? $config['meta']['title'] ?? '') ?>">
@@ -160,7 +160,7 @@ $globalSettings = \App\Core\View::getSettings();
     <?php \App\Core\View::partial('footer'); ?>
 
     <!-- Scripts -->
-    <script src="<?= \App\Core\View::asset('js/main.js') ?>"></script>
+    <script src="<?= \App\Core\View::asset('js/main.js') ?>?v=20251211d"></script>
     <script>
         feather.replace();
     </script>

@@ -714,6 +714,11 @@ class ContentController
             foreach ($_POST as $key => $value) {
                 if (strpos($key, '_') === 0) continue;
 
+                // Sanitize value - convert arrays to JSON string
+                if (is_array($value)) {
+                    $value = json_encode($value);
+                }
+
                 $existing = Database::fetch("SELECT id FROM settings WHERE `key` = ?", [$key]);
 
                 if ($existing) {
@@ -729,7 +734,7 @@ class ContentController
             }
             $_SESSION['flash_success'] = 'Nastavení bylo uloženo.';
         } catch (\Exception $e) {
-            $_SESSION['flash_error'] = 'Chyba při ukládání nastavení.';
+            $_SESSION['flash_error'] = 'Chyba při ukládání: ' . $e->getMessage();
         }
 
         header('Location: ' . $this->basePath . '/settings');

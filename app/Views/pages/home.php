@@ -212,119 +212,6 @@ $reelLabels = [
     3 => \App\Core\View::setting('reel_3_label', ''),
 ];
 ?>
-<style>
-/* Phone slider navigation - hidden on desktop */
-.phone-slider-nav {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-.phone-slider-nav__btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(124, 58, 237, 0.2);
-    border: 1px solid rgba(124, 58, 237, 0.4);
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-}
-.phone-slider-nav__btn:hover {
-    background: rgba(124, 58, 237, 0.4);
-}
-.phone-slider-nav__btn svg {
-    width: 20px;
-    height: 20px;
-}
-.phone-slider-nav__dots {
-    display: flex;
-    gap: 0.5rem;
-}
-.phone-slider-nav__dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.phone-slider-nav__dot.active {
-    background: #7c3aed;
-    transform: scale(1.2);
-}
-
-/* Mobile phone slider */
-@media (max-width: 768px) {
-    .reels-showcase__phones {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 400px;
-    }
-    .reels-showcase__phone {
-        position: absolute;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-        pointer-events: none;
-    }
-    .reels-showcase__phone.active {
-        position: relative;
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .reels-showcase__phone--left,
-    .reels-showcase__phone--right,
-    .reels-showcase__phone--center {
-        transform: none !important;
-    }
-    .phone-frame,
-    .phone-frame--large {
-        width: 220px !important;
-        height: 440px !important;
-        background: linear-gradient(145deg, #1a1a2e, #0a0a0f) !important;
-        border: 3px solid #333 !important;
-        border-radius: 30px !important;
-        position: relative !important;
-        overflow: hidden !important;
-        padding: 0 !important;
-    }
-    .phone-frame__screen {
-        width: 100% !important;
-        height: 100% !important;
-        border-radius: 27px !important;
-        overflow: hidden !important;
-        position: relative !important;
-    }
-    .phone-frame__video,
-    .phone-frame__image {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-    }
-    .phone-frame__youtube {
-        width: 180% !important;
-        height: 100% !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-    }
-    .phone-frame__notch {
-        display: none !important;
-    }
-    .phone-slider-nav {
-        display: flex !important;
-    }
-}
-</style>
 <section class="reels-showcase section">
     <div class="container">
         <div class="section__header">
@@ -352,7 +239,7 @@ $reelLabels = [
                         <div class="phone-frame__notch"></div>
                         <div class="phone-frame__screen">
                             <?php if ($reelTypes[$i] === 'video' && !empty($reelVideos[$i])): ?>
-                                <video class="phone-frame__video" muted loop playsinline preload="metadata">
+                                <video class="phone-frame__video" autoplay muted loop playsinline preload="none" poster="" disablePictureInPicture disableRemotePlayback x-webkit-airplay="deny">
                                     <source src="<?= htmlspecialchars($reelVideos[$i]) ?>" type="video/mp4">
                                 </video>
                             <?php elseif ($reelTypes[$i] === 'youtube' && !empty($reelYoutubes[$i])): ?>
@@ -402,7 +289,7 @@ $reelLabels = [
 </section>
 
 <script>
-// Phone slider for mobile + lazy load videos
+// Phone slider for mobile + lazy load videos (iOS Safari compatible)
 (function() {
     var reelsSection = document.querySelector('.reels-showcase');
     if (!reelsSection) return;
@@ -414,8 +301,46 @@ $reelLabels = [
     var currentIndex = 1;
     var loaded = false;
 
+    // iOS detection
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
     function isMobile() {
         return window.innerWidth <= 768;
+    }
+
+    // Robust video play function for iOS Safari
+    function safePlayVideo(video) {
+        if (!video) return;
+
+        // Ensure muted (required for iOS autoplay)
+        video.muted = true;
+        video.defaultMuted = true;
+        video.volume = 0;
+
+        // For iOS: set attributes via property and attribute
+        video.playsInline = true;
+        video.setAttribute('playsinline', 'true');
+        video.setAttribute('muted', 'true');
+
+        // Try to play
+        try {
+            var playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.then(function() {
+                    // Success
+                }).catch(function(err) {
+                    // If autoplay failed, set up canplay listener
+                    video.addEventListener('canplay', function onCanPlay() {
+                        video.removeEventListener('canplay', onCanPlay);
+                        video.play().catch(function(){});
+                    }, { once: true });
+                    video.load();
+                });
+            }
+        } catch(e) {
+            // Fallback
+        }
     }
 
     function showPhone(index) {
@@ -442,7 +367,7 @@ $reelLabels = [
             var video = phone.querySelector('.phone-frame__video');
             if (video) {
                 if (phoneIndex === index) {
-                    video.play().catch(function() {});
+                    safePlayVideo(video);
                 } else {
                     video.pause();
                 }
@@ -475,19 +400,17 @@ $reelLabels = [
     // Initialize on mobile
     function init() {
         if (isMobile()) {
-            // Remove desktop classes, add active to first
             phones.forEach(function(phone) {
                 phone.classList.remove('active');
             });
             showPhone(1);
         } else {
-            // Desktop: remove active class, restore positions
             phones.forEach(function(phone) {
                 phone.classList.remove('active');
             });
             // Play all videos on desktop
             reelsSection.querySelectorAll('.phone-frame__video').forEach(function(video) {
-                video.play().catch(function() {});
+                safePlayVideo(video);
             });
         }
     }
@@ -505,14 +428,25 @@ $reelLabels = [
             iframe.removeAttribute('data-src');
         });
 
-        // Play videos (or just current on mobile)
-        if (isMobile()) {
-            showPhone(1);
-        } else {
-            reelsSection.querySelectorAll('.phone-frame__video').forEach(function(video) {
-                video.play().catch(function() {});
-            });
-        }
+        // Initialize videos - set src from source tag if needed
+        reelsSection.querySelectorAll('.phone-frame__video').forEach(function(video) {
+            var source = video.querySelector('source');
+            if (source && source.src && !video.src) {
+                video.src = source.src;
+            }
+            video.load();
+        });
+
+        // Small delay then play
+        setTimeout(function() {
+            if (isMobile()) {
+                showPhone(1);
+            } else {
+                reelsSection.querySelectorAll('.phone-frame__video').forEach(function(video) {
+                    safePlayVideo(video);
+                });
+            }
+        }, 100);
     }
 
     if ('IntersectionObserver' in window) {
@@ -523,7 +457,7 @@ $reelLabels = [
                     observer.disconnect();
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.3 });
 
         observer.observe(reelsSection);
     } else {
@@ -533,27 +467,66 @@ $reelLabels = [
     // Touch swipe support
     var touchStartX = 0;
     var touchEndX = 0;
+    var touchStartY = 0;
+    var touchEndY = 0;
     var phonesContainer = reelsSection.querySelector('.reels-showcase__phones');
 
     if (phonesContainer) {
         phonesContainer.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
+            if (e.touches && e.touches[0]) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }
+
+            // iOS: Try to play video on any touch
+            if (isIOS) {
+                var activePhone = reelsSection.querySelector('.reels-showcase__phone.active');
+                if (activePhone) {
+                    var video = activePhone.querySelector('.phone-frame__video');
+                    if (video && video.paused) {
+                        safePlayVideo(video);
+                    }
+                }
+            }
         }, { passive: true });
 
         phonesContainer.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            var diff = touchStartX - touchEndX;
-            if (Math.abs(diff) > 50) { // minimum swipe distance
-                if (diff > 0) {
-                    nextPhone(); // swipe left = next
-                } else {
-                    prevPhone(); // swipe right = prev
+            if (e.changedTouches && e.changedTouches[0]) {
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+
+                var diffX = touchStartX - touchEndX;
+                var diffY = touchStartY - touchEndY;
+
+                if (Math.abs(diffX) > 50 && Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > 0) {
+                        nextPhone();
+                    } else {
+                        prevPhone();
+                    }
                 }
             }
         }, { passive: true });
     }
 
-    // Initialize immediately for mobile
+    // iOS: Global touch handler for first interaction
+    var firstInteraction = false;
+    function handleFirstInteraction() {
+        if (firstInteraction) return;
+        firstInteraction = true;
+
+        reelsSection.querySelectorAll('.phone-frame__video').forEach(function(video) {
+            if (video.paused) {
+                safePlayVideo(video);
+            }
+        });
+    }
+
+    document.addEventListener('touchstart', handleFirstInteraction, { once: true, passive: true });
+    document.addEventListener('click', handleFirstInteraction, { once: true });
+    document.addEventListener('scroll', handleFirstInteraction, { once: true, passive: true });
+
+    // Initialize
     init();
 })();
 </script>

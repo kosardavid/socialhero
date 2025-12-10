@@ -1090,9 +1090,16 @@ p {
 
 .footer__newsletter-form {
     display: flex;
+    flex-direction: column;
     gap: var(--spacing-sm);
     width: 100%;
-    max-width: 400px;
+}
+
+@media (min-width: 480px) {
+    .footer__newsletter-form {
+        flex-direction: row;
+        max-width: 400px;
+    }
 }
 
 .footer__newsletter-form input {
@@ -1306,17 +1313,29 @@ p {
 /* ===== Toast Notifications ===== */
 .toast {
     position: fixed;
-    bottom: var(--spacing-xl);
-    right: var(--spacing-xl);
+    bottom: 100px;
+    left: var(--spacing-md);
+    right: var(--spacing-md);
     padding: var(--spacing-md) var(--spacing-lg);
     background: var(--color-bg-tertiary);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-xl);
-    z-index: 9999;
+    z-index: 10000;
     transform: translateY(100px);
     opacity: 0;
     transition: all var(--transition-base);
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .toast {
+        bottom: var(--spacing-xl);
+        left: auto;
+        right: var(--spacing-xl);
+        max-width: 400px;
+        text-align: left;
+    }
 }
 
 .toast.show {

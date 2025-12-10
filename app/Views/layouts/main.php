@@ -186,15 +186,88 @@ $globalSettings = \App\Core\View::getSettings();
     <?php endif; ?>
 
     <!-- Cookie Consent Banner -->
-    <div id="cookie-consent" style="display:none; position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,15,0.98); border-top:1px solid rgba(124,58,237,0.3); padding:1rem 2rem; z-index:9999; backdrop-filter:blur(10px);">
-        <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
-            <p style="margin:0; color:#a0a0b0; font-size:0.9rem; flex:1; min-width:280px;">
+    <style>
+    #cookie-consent {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(10,10,15,0.98);
+        border-top: 1px solid rgba(124,58,237,0.3);
+        padding: 1rem;
+        z-index: 9999;
+        backdrop-filter: blur(10px);
+    }
+    @media (min-width: 768px) {
+        #cookie-consent { padding: 1rem 2rem; }
+    }
+    #cookie-consent .cookie-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    #cookie-consent p {
+        margin: 0;
+        color: #a0a0b0;
+        font-size: 0.85rem;
+        flex: 1;
+        min-width: 200px;
+        line-height: 1.5;
+    }
+    @media (min-width: 768px) {
+        #cookie-consent p { font-size: 0.9rem; min-width: 280px; }
+    }
+    #cookie-consent a { color: #a855f7; }
+    #cookie-consent .cookie-buttons {
+        display: flex;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    @media (min-width: 480px) {
+        #cookie-consent .cookie-buttons { width: auto; gap: 0.75rem; }
+    }
+    #cookie-consent .btn-accept {
+        flex: 1;
+        padding: 0.6rem 1rem;
+        background: linear-gradient(135deg,#7c3aed,#a855f7);
+        color: #fff;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+    @media (min-width: 480px) {
+        #cookie-consent .btn-accept { flex: none; padding: 0.6rem 1.5rem; font-size: 0.9rem; }
+    }
+    #cookie-consent .btn-decline {
+        flex: 1;
+        padding: 0.6rem 1rem;
+        background: transparent;
+        color: #a0a0b0;
+        border: 1px solid #333;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        font-size: 0.85rem;
+    }
+    @media (min-width: 480px) {
+        #cookie-consent .btn-decline { flex: none; padding: 0.6rem 1.5rem; font-size: 0.9rem; }
+    }
+    </style>
+    <div id="cookie-consent">
+        <div class="cookie-inner">
+            <p>
                 Tento web používá cookies pro zlepšení uživatelského zážitku a analýzu návštěvnosti.
-                <a href="/ochrana-soukromi" style="color:#a855f7;">Více informací</a>
+                <a href="/ochrana-soukromi">Více informací</a>
             </p>
-            <div style="display:flex; gap:0.75rem;">
-                <button onclick="acceptCookies()" style="padding:0.6rem 1.5rem; background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600; font-size:0.9rem;">Přijmout</button>
-                <button onclick="declineCookies()" style="padding:0.6rem 1.5rem; background:transparent; color:#a0a0b0; border:1px solid #333; border-radius:0.5rem; cursor:pointer; font-size:0.9rem;">Odmítnout</button>
+            <div class="cookie-buttons">
+                <button onclick="acceptCookies()" class="btn-accept">Přijmout</button>
+                <button onclick="declineCookies()" class="btn-decline">Odmítnout</button>
             </div>
         </div>
     </div>

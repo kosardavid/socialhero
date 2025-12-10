@@ -34,35 +34,19 @@ ob_start();
                 <textarea id="bio" name="bio" rows="4"><?= htmlspecialchars($member['bio'] ?? $_POST['bio'] ?? '') ?></textarea>
             </div>
 
-            <div class="form-row">
-                <div class="form-group form-group--half">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<?= htmlspecialchars($member['email'] ?? $_POST['email'] ?? '') ?>">
-                </div>
-                <div class="form-group form-group--half">
-                    <label for="phone">Telefon</label>
-                    <input type="text" id="phone" name="phone" value="<?= htmlspecialchars($member['phone'] ?? $_POST['phone'] ?? '') ?>">
-                </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($member['email'] ?? $_POST['email'] ?? '') ?>">
             </div>
 
             <div class="form-group">
-                <label for="photo">URL fotky</label>
-                <input type="url" id="photo" name="photo" value="<?= htmlspecialchars($member['photo'] ?? $_POST['photo'] ?? '') ?>" placeholder="https://...">
+                <label for="image">URL fotky</label>
+                <input type="url" id="image" name="image" value="<?= htmlspecialchars($member['image'] ?? $_POST['image'] ?? '') ?>" placeholder="https://...">
             </div>
 
             <div class="form-group">
-                <label>Sociální sítě</label>
-                <div class="form-row">
-                    <div class="form-group form-group--third">
-                        <input type="url" name="linkedin" value="<?= htmlspecialchars($member['linkedin'] ?? $_POST['linkedin'] ?? '') ?>" placeholder="LinkedIn URL">
-                    </div>
-                    <div class="form-group form-group--third">
-                        <input type="url" name="twitter" value="<?= htmlspecialchars($member['twitter'] ?? $_POST['twitter'] ?? '') ?>" placeholder="Twitter/X URL">
-                    </div>
-                    <div class="form-group form-group--third">
-                        <input type="url" name="instagram" value="<?= htmlspecialchars($member['instagram'] ?? $_POST['instagram'] ?? '') ?>" placeholder="Instagram URL">
-                    </div>
-                </div>
+                <label for="linkedin">LinkedIn URL</label>
+                <input type="url" id="linkedin" name="linkedin" value="<?= htmlspecialchars($member['linkedin'] ?? $_POST['linkedin'] ?? '') ?>" placeholder="https://linkedin.com/in/...">
             </div>
 
             <div class="form-group">
@@ -91,11 +75,6 @@ ob_start();
     </div>
 </form>
 
-<style>
-.form-group--third {
-    flex: 0 0 calc(33.333% - 0.75rem);
-}
-</style>
 
 <?php
 $content = ob_get_clean();

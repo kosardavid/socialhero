@@ -31,6 +31,17 @@ INSERT INTO `page_content` (`page`, `section`, `field`, `content`) VALUES
 ('home', 'hero', 'float_2', '+2,400 zákazníků'),
 ('home', 'hero', 'float_3', 'ROAS 4.2x');
 
+-- Stats sekce (pod hero)
+INSERT INTO `page_content` (`page`, `section`, `field`, `content`) VALUES
+('home', 'stats', 'stat1_value', '150+'),
+('home', 'stats', 'stat1_label', 'Spokojených klientů'),
+('home', 'stats', 'stat2_value', '24h'),
+('home', 'stats', 'stat2_label', 'Průměrná odezva'),
+('home', 'stats', 'stat3_value', '40%'),
+('home', 'stats', 'stat3_label', 'Průměrný nárůst konverzí'),
+('home', 'stats', 'stat4_value', '5+'),
+('home', 'stats', 'stat4_label', 'Let zkušeností');
+
 -- Services sekce
 INSERT INTO `page_content` (`page`, `section`, `field`, `content`) VALUES
 ('home', 'services', 'badge', 'Naše služby'),

@@ -1,3 +1,4 @@
+<?php $settings = \App\Core\View::getSettings(); ?>
 <footer class="footer">
     <div class="footer__container container">
         <div class="footer__grid">
@@ -10,15 +11,21 @@
                     Sociální sítě, PPC reklama, e-mailing a více.
                 </p>
                 <div class="footer__social">
-                    <a href="#" class="footer__social-link" aria-label="Facebook">
+                    <?php if (!empty($settings['social_facebook'])): ?>
+                    <a href="<?= htmlspecialchars($settings['social_facebook']) ?>" class="footer__social-link" aria-label="Facebook" target="_blank">
                         <i data-feather="facebook"></i>
                     </a>
-                    <a href="#" class="footer__social-link" aria-label="Instagram">
+                    <?php endif; ?>
+                    <?php if (!empty($settings['social_instagram'])): ?>
+                    <a href="<?= htmlspecialchars($settings['social_instagram']) ?>" class="footer__social-link" aria-label="Instagram" target="_blank">
                         <i data-feather="instagram"></i>
                     </a>
-                    <a href="#" class="footer__social-link" aria-label="LinkedIn">
+                    <?php endif; ?>
+                    <?php if (!empty($settings['social_linkedin'])): ?>
+                    <a href="<?= htmlspecialchars($settings['social_linkedin']) ?>" class="footer__social-link" aria-label="LinkedIn" target="_blank">
                         <i data-feather="linkedin"></i>
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -47,18 +54,24 @@
             <div class="footer__contact">
                 <h4 class="footer__title">Kontakt</h4>
                 <ul class="footer__list">
+                    <?php if (!empty($settings['contact_email'])): ?>
                     <li>
                         <i data-feather="mail"></i>
-                        <a href="mailto:info@socialhero.cz">info@socialhero.cz</a>
+                        <a href="mailto:<?= htmlspecialchars($settings['contact_email']) ?>"><?= htmlspecialchars($settings['contact_email']) ?></a>
                     </li>
+                    <?php endif; ?>
+                    <?php if (!empty($settings['contact_phone'])): ?>
                     <li>
                         <i data-feather="phone"></i>
-                        <a href="tel:+420123456789">+420 123 456 789</a>
+                        <a href="tel:<?= htmlspecialchars(preg_replace('/\s+/', '', $settings['contact_phone'])) ?>"><?= htmlspecialchars($settings['contact_phone']) ?></a>
                     </li>
+                    <?php endif; ?>
+                    <?php if (!empty($settings['contact_address'])): ?>
                     <li>
                         <i data-feather="map-pin"></i>
-                        <span>Praha, Česká republika</span>
+                        <span><?= htmlspecialchars($settings['contact_address']) ?></span>
                     </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>

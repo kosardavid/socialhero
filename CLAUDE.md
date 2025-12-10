@@ -199,6 +199,56 @@ curl -T "admin/Views/dashboard.php" -u w387379_kosar:HESLO "ftp://387379.w79.wed
 ## GitHub
 - **Repozitar:** https://github.com/kosardavid/socialhero
 
+## SEO & Optimalizace (pridano 10.12.2025)
+
+### Implementovano
+- **robots.txt** - povoleni crawleru, blokovani /admin/ a /api/
+- **sitemap.xml** - 7 hlavnich stranek
+- **JSON-LD** - strukturovana data pro MarketingAgency
+- **Canonical URL** - v hlavicce kazde stranky
+- **Font preload** - optimalizace nacitani Google Fonts
+- **Lazy loading** - pro obrazky
+- **HTTPS redirect** - vynuceny v .htaccess
+- **Cookie consent banner** - GDPR kompatibilni, ulozeni do localStorage
+- **Responzivni design** - opraveno pro mobily (cookie banner, toast, newsletter form)
+
+### Soubory na serveru
+```
+/domains/socialhero.cz/
+├── .htaccess          # Bezpecnostni pravidla (root)
+├── robots.txt         # SEO
+├── sitemap.xml        # SEO
+├── index.php          # Hlavni entry point
+├── assets/            # Staticke soubory (CSS, JS, images)
+├── app/               # MVC aplikace
+├── admin/             # Admin panel
+├── config/            # Konfigurace
+└── database/          # SQL soubory
+```
+
+## Zname problemy
+
+### OPcache na Wedosu
+- Wedos ma agresivni OPcache (5+ minut)
+- Zmeny v PHP souborech se neprojevi okamzite
+- Reseni: pockat nebo restartovat PHP pres admin panel
+
+### Opravneni slozek (POTREBA OPRAVIT!)
+Slozky na serveru maji spatna opravneni (750 misto 755).
+**Favicon a CSS se nenacitaji!**
+
+**Oprava pres Wedos FileManager nebo FileZilla:**
+1. Slozka `assets` a vsechny podslozky → **755**
+2. Soubory v assets → **644**
+
+### chdir() warning
+Na webu se zobrazuje warning:
+```
+Warning: chdir(): No such file or directory (errno 2) in index.php on line 9
+```
+Toto **neni v nasem kodu** - pravdepodobne auto_prepend_file od Wedosu.
+Zkontrolovat v Wedos admin → PHP nastaveni.
+
 ## Dulezite poznamky
 
 ### Bezpecnost

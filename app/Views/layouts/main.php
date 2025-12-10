@@ -12,13 +12,17 @@ $globalSettings = \App\Core\View::getSettings();
 
     <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) . ' | ' . htmlspecialchars($config['name']) : htmlspecialchars($globalSettings['default_meta_title'] ?? $config['meta']['title'] ?? '') ?></title>
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="<?= $config['url'] ?><?= $_SERVER['REQUEST_URI'] === '/' ? '' : htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="<?= \App\Core\View::asset('images/favicon.svg') ?>">
 
-    <!-- Fonts -->
+    <!-- Fonts - Preload for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 
     <!-- Styles -->
     <link rel="stylesheet" href="<?= \App\Core\View::asset('css/style.css') ?>?v=20251209">
@@ -180,5 +184,34 @@ $globalSettings = \App\Core\View::getSettings();
     <?php if (!empty($globalSettings['custom_body_scripts'])): ?>
     <?= $globalSettings['custom_body_scripts'] ?>
     <?php endif; ?>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent" style="display:none; position:fixed; bottom:0; left:0; right:0; background:rgba(10,10,15,0.98); border-top:1px solid rgba(124,58,237,0.3); padding:1rem 2rem; z-index:9999; backdrop-filter:blur(10px);">
+        <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+            <p style="margin:0; color:#a0a0b0; font-size:0.9rem; flex:1; min-width:280px;">
+                Tento web používá cookies pro zlepšení uživatelského zážitku a analýzu návštěvnosti.
+                <a href="/ochrana-soukromi" style="color:#a855f7;">Více informací</a>
+            </p>
+            <div style="display:flex; gap:0.75rem;">
+                <button onclick="acceptCookies()" style="padding:0.6rem 1.5rem; background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; border:none; border-radius:0.5rem; cursor:pointer; font-weight:600; font-size:0.9rem;">Přijmout</button>
+                <button onclick="declineCookies()" style="padding:0.6rem 1.5rem; background:transparent; color:#a0a0b0; border:1px solid #333; border-radius:0.5rem; cursor:pointer; font-size:0.9rem;">Odmítnout</button>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function(){
+        if(!localStorage.getItem('cookieConsent')){
+            document.getElementById('cookie-consent').style.display='block';
+        }
+    })();
+    function acceptCookies(){
+        localStorage.setItem('cookieConsent','accepted');
+        document.getElementById('cookie-consent').style.display='none';
+    }
+    function declineCookies(){
+        localStorage.setItem('cookieConsent','declined');
+        document.getElementById('cookie-consent').style.display='none';
+    }
+    </script>
 </body>
 </html>
